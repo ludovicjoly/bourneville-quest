@@ -15,7 +15,16 @@ const steps = [
     },
     morseBoxes: {
       label: "Mot et codes morse",
-      count: 7
+      count: 7,
+      prefill: [
+        { morse: ".-" },
+        { morse: "-..." },
+        { morse: "." },
+        { morse: ".." },
+        { morse: ".-.." },
+        { morse: ".-.." },
+        { morse: "." }
+      ]
     },
     tasks: [
       {
@@ -118,7 +127,16 @@ const steps = [
     },
     morseBoxes: {
       label: "Nom de code et codes morse",
-      count: 7
+      count: 7,
+      prefill: [
+        {},
+        { morse: "." },
+        {},
+        { letter: "T" },
+        {},
+        {},
+        { morse: "." }
+      ]
     },
     tasks: [
       {
@@ -144,7 +162,11 @@ const steps = [
     },
     morseBoxes: {
       label: "Deux lettres et leurs codes morse",
-      count: 2
+      count: 2,
+      prefill: [
+        { morse: "-.." },
+        { morse: ".-." }
+      ]
     },
     tasks: [
       {
@@ -338,8 +360,9 @@ function renderMorseBoxes(step, stepIndex) {
   const boxes = Array.from({ length: step.morseBoxes.count }, (_, index) => {
     const letterKey = getMorseKey(stepIndex, index, "letter");
     const morseKey = getMorseKey(stepIndex, index, "morse");
-    const letter = state.answers[letterKey] || "";
-    const morse = state.answers[morseKey] || "";
+    const prefill = step.morseBoxes.prefill?.[index] || {};
+    const letter = getStoredValue(letterKey, prefill.letter || "");
+    const morse = getStoredValue(morseKey, prefill.morse || "");
     return `
       <div class="morse-box">
         <label class="sr-only" for="${letterKey}">Lettre ${index + 1}</label>
@@ -379,6 +402,12 @@ function renderMorseBoxes(step, stepIndex) {
       </div>
     </div>
   `;
+}
+
+function getStoredValue(key, fallback) {
+  return Object.prototype.hasOwnProperty.call(state.answers, key)
+    ? state.answers[key]
+    : fallback;
 }
 
 function updateProgress() {
