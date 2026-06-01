@@ -8,11 +8,6 @@ const steps = [
     story:
       "Cherchez un labyrinthe a l'entree du chemin et trouvez le parcours qui mene jusqu'a la croix de guerre.",
     clue: "Son travail est essentiel a la pollinisation.",
-    image: {
-      src: "assets/step1-morse.png",
-      alt: "Cases en code morse a remplir pour le mot de 7 lettres",
-      label: "Cases du support"
-    },
     morseBoxes: {
       label: "Mot et codes morse",
       count: 7,
@@ -121,11 +116,6 @@ const steps = [
     story:
       "L'eclaireur anglais vous a laisse un puzzle quelque part sous les arbres.",
     clue: "N'oubliez pas ce que vous connaissez deja.",
-    image: {
-      src: "assets/foret-puzzle.png",
-      alt: "Cases du puzzle de la foret",
-      label: "Puzzle du support"
-    },
     morseBoxes: {
       label: "Nom de code et codes morse",
       count: 7,
@@ -155,11 +145,6 @@ const steps = [
     story:
       "Vous pourrez probablement y decouvrir l'avant-dernier indice laisse par l'eclaireur.",
     clue: "Quelles sont les deux lettres qui abregent le mot Docteur ?",
-    image: {
-      src: "assets/arbre-morse.png",
-      alt: "Deux cases en code morse pour l'arbre solitaire",
-      label: "Cases du support"
-    },
     morseBoxes: {
       label: "Deux lettres et leurs codes morse",
       count: 2,
@@ -182,11 +167,6 @@ const steps = [
     story:
       "Vous etes arrive a la derniere etape pour decoder le message de l'eclaireur.",
     clue: "Les informations sont souvent bien affichees aux yeux de tous.",
-    image: {
-      src: "assets/mairie-box.png",
-      alt: "Case de reponse pour la mairie",
-      label: "Case du support"
-    },
     morseBoxes: {
       label: "Derniere lettre et son code morse",
       count: 1
