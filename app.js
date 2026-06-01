@@ -382,7 +382,7 @@ function renderStep() {
 
       const value = event.target.dataset.part === "letter"
         ? event.target.value.toUpperCase().slice(0, 1)
-        : event.target.value.replace(/-/g, "_").replace(/[^._\s/]/g, "");
+        : normalizeMorseValue(event.target.value);
       event.target.value = value;
       state.answers[event.target.dataset.morse] = value;
       persistState();
@@ -554,7 +554,7 @@ function renderMorseBoxes(step, stepIndex) {
     const hasPrefilledLetter = Object.prototype.hasOwnProperty.call(prefill, "letter");
     const hasPrefilledMorse = Object.prototype.hasOwnProperty.call(prefill, "morse");
     const letter = hasPrefilledLetter ? prefill.letter : getStoredValue(letterKey, "");
-    const morse = hasPrefilledMorse ? prefill.morse : getStoredValue(morseKey, "");
+    const morse = hasPrefilledMorse ? prefill.morse : normalizeMorseValue(getStoredValue(morseKey, ""));
     const letterLocked = hasPrefilledLetter ? 'readonly data-prefilled="true"' : "";
     const morseLocked = hasPrefilledMorse ? 'readonly data-prefilled="true"' : "";
     return `
@@ -604,6 +604,10 @@ function getStoredValue(key, fallback) {
   return Object.prototype.hasOwnProperty.call(state.answers, key)
     ? state.answers[key]
     : fallback;
+}
+
+function normalizeMorseValue(value) {
+  return String(value).replace(/-/g, "_").replace(/[^._\s/]/g, "");
 }
 
 function updateProgress() {
