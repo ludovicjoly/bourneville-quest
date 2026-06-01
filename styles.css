@@ -19,11 +19,13 @@
 
 html {
   min-height: 100%;
+  overflow-x: hidden;
   background: var(--paper);
 }
 
 body {
   margin: 0;
+  overflow-x: hidden;
   color: var(--ink);
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.5;
@@ -627,61 +629,152 @@ footer {
 }
 
 @media (max-width: 620px) {
+  body {
+    background: #fff;
+    line-height: 1.42;
+  }
+
   main {
-    width: min(100% - 20px, 1060px);
-    padding-top: 12px;
+    width: 100%;
+    padding: 0 10px 18px;
   }
 
   .app-header {
-    position: static;
+    position: sticky;
+    padding: 10px 12px;
+  }
+
+  .kicker {
+    font-size: 0.68rem;
+  }
+
+  h1 {
+    font-size: 1.25rem;
+  }
+
+  h2 {
+    margin-bottom: 10px;
+    font-size: 1.18rem;
   }
 
   .intro,
   .map-panel,
   .message-panel,
   .step-view {
-    border-radius: 6px;
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .intro,
+  .map-panel,
+  .step-view {
+    padding: 14px 12px;
+  }
+
+  .intro {
+    gap: 12px;
+  }
+
+  .intro-banner {
+    margin-bottom: 12px;
+  }
+
+  .intro-copy p {
+    margin-bottom: 10px;
+  }
+
+  .intro-media {
+    grid-template-columns: 72px minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .portrait {
+    width: 72px;
+  }
+
+  .progress-panel {
+    padding: 12px;
+  }
+
+  .progress-panel strong {
+    font-size: 1.45rem;
+  }
+
+  .map-panel {
+    margin-top: 10px;
+    gap: 12px;
   }
 
   .step-tabs {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 8px;
-    margin: 12px -10px;
-    overflow-x: auto;
-    padding: 0 10px 4px;
-    scroll-snap-type: x proximity;
+    margin: 10px 0 0;
+    overflow-x: visible;
+    padding: 8px;
+    background: #f2f5f7;
   }
 
   .step-tab {
-    min-width: 112px;
-    min-height: 56px;
-    scroll-snap-align: start;
+    min-width: 0;
+    min-height: 46px;
+    padding: 6px;
+  }
+
+  .step-number {
+    font-size: 0.92rem;
+  }
+
+  .step-name {
+    font-size: 0.72rem;
   }
 
   .step-view {
     min-height: 0;
+    margin-top: 0;
   }
 
-  .visual-panel {
-    overflow-x: auto;
-    padding-bottom: 2px;
+  .step-layout {
+    gap: 12px;
   }
 
-  .step-visual {
-    min-width: min(540px, 140vw);
+  .story {
+    margin-bottom: 12px;
+  }
+
+  .directions {
+    padding: 10px 12px;
+  }
+
+  .task-list {
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .task {
+    padding: 12px;
+    border-radius: 6px;
+  }
+
+  .visual-panel,
+  .worksheet-panel,
+  .morse-panel {
+    margin-top: 12px;
   }
 
   .morse-grid {
-    grid-template-columns: repeat(auto-fit, minmax(78px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
     gap: 8px;
   }
 
   .morse-box {
-    grid-template-rows: 54px 44px;
+    grid-template-rows: 48px 40px;
   }
 
   .task-with-box {
-    grid-template-columns: minmax(0, 1fr) 66px;
+    grid-template-columns: minmax(0, 1fr) 58px;
     gap: 10px;
   }
 
@@ -690,24 +783,72 @@ footer {
   }
 
   .math-puzzle {
+    --math-cell: 42px;
+    --math-row: 38px;
+    --math-grid-width: calc(var(--math-cell) * 3);
     width: 100%;
+    overflow-x: visible;
+  }
+
+  .math-column-totals {
+    grid-template-columns: repeat(3, var(--math-cell));
+    width: var(--math-grid-width);
+    min-height: 28px;
+  }
+
+  .math-column-totals span,
+  .math-row-totals {
+    font-size: 0.86rem;
+  }
+
+  .math-body {
+    grid-template-columns: var(--math-grid-width) 42px 42px 52px;
+    gap: 6px;
+    width: min(100%, 280px);
+  }
+
+  .math-grid {
+    grid-template-columns: repeat(3, var(--math-cell));
+    grid-template-rows: repeat(3, var(--math-row));
+  }
+
+  .math-cell {
+    width: var(--math-cell);
+    height: var(--math-row);
+    font-size: 1.05rem;
+  }
+
+  .math-row-totals {
+    grid-template-rows: repeat(3, var(--math-row));
+  }
+
+  .math-arrow {
+    width: 42px;
   }
 
   .answer-box {
     width: 100%;
-    height: 60px;
+    height: 52px;
+    font-size: 1.18rem;
   }
 
   .morse-letter {
-    font-size: 1.45rem;
+    font-size: 1.28rem;
   }
 
   .morse-code {
-    font-size: 1.05rem;
+    font-size: 0.98rem;
+  }
+
+  .clue-panel {
+    padding: 12px;
+    border-radius: 6px;
   }
 
   .step-actions {
     display: grid;
+    gap: 8px;
+    margin-top: 14px;
   }
 
   .primary-button,
