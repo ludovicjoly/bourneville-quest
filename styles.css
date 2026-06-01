@@ -384,8 +384,119 @@ main {
   border-radius: 8px;
 }
 
+.task-with-box {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 70px;
+  gap: 14px;
+  align-items: center;
+}
+
+.task-copy {
+  min-width: 0;
+}
+
 .task p {
   margin-bottom: 10px;
+}
+
+.task-image {
+  display: block;
+  width: min(100%, 440px);
+  height: auto;
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.math-puzzle {
+  display: grid;
+  gap: 6px;
+  width: min(100%, 520px);
+  margin-top: 12px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.math-column-totals {
+  display: grid;
+  grid-template-columns: repeat(3, 64px);
+  gap: 0;
+  width: 192px;
+  padding-left: 0;
+}
+
+.math-column-totals span {
+  display: block;
+  transform: rotate(-90deg);
+  transform-origin: center;
+  text-align: center;
+  font-size: 1rem;
+  font-style: italic;
+  white-space: nowrap;
+}
+
+.math-body {
+  display: grid;
+  grid-template-columns: 192px 58px 90px 64px;
+  gap: 10px;
+  align-items: center;
+  width: max-content;
+}
+
+.math-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 64px);
+  grid-template-rows: repeat(3, 48px);
+  border-top: 2px solid #2a2f34;
+  border-left: 2px solid #2a2f34;
+}
+
+.math-cell {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 48px;
+  min-height: 0;
+  padding: 4px;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 800;
+  background: #fff;
+  border: 0;
+  border-right: 2px solid #2a2f34;
+  border-bottom: 2px solid #2a2f34;
+  border-radius: 0;
+}
+
+.math-cell.fixed {
+  font-style: italic;
+}
+
+.math-row-totals {
+  display: grid;
+  grid-template-rows: repeat(3, 48px);
+  align-items: center;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.math-arrow {
+  position: relative;
+  height: 2px;
+  background: #111820;
+}
+
+.math-arrow::after {
+  position: absolute;
+  top: 50%;
+  right: -1px;
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 12px solid #111820;
+  content: "";
+  transform: translateY(-50%);
 }
 
 label {
@@ -567,6 +678,19 @@ footer {
 
   .morse-box {
     grid-template-rows: 54px 44px;
+  }
+
+  .task-with-box {
+    grid-template-columns: minmax(0, 1fr) 66px;
+    gap: 10px;
+  }
+
+  .task-image {
+    width: 100%;
+  }
+
+  .math-puzzle {
+    width: 100%;
   }
 
   .answer-box {

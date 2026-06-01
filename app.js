@@ -42,40 +42,36 @@ const steps = [
     story:
       "Vous devez trouver les 4 chiffres d'un code secret qui ouvrira une boite a cles.",
     clue: "Les chiffres du code sont uniques.",
-    image: {
-      src: "assets/eglise-grid.png",
-      alt: "Grille mathematique de l'enigme du troisieme chiffre",
-      label: "Enigme mathematique"
-    },
     morseBoxes: {
       label: "Lettre et code morse trouves dans la boite",
       count: 1
-    },
-    worksheet: {
-      type: "code",
-      label: "Code secret de la boite",
-      count: 4
     },
     tasks: [
       {
         label: "1er chiffre",
         prompt:
-          "Trouvez le vieux conifere present dans le cimetiere. Combien y a-t-il de lettres dans le nom de cet arbre ?"
+          "Trouvez le vieux conifere present dans le cimetiere. Combien y a-t-il de lettres dans le nom de cet arbre ?",
+        box: { name: "code-0", mode: "digit", ariaLabel: "Premier chiffre du code" }
       },
       {
         label: "2eme chiffre",
         prompt:
-          "Observez le sommet de l'eglise. Combien y a-t-il de lettres dans le nom de l'oiseau qui indique le sens du vent ?"
+          "Observez le sommet de l'eglise. Combien y a-t-il de lettres dans le nom de l'oiseau qui indique le sens du vent ?",
+        box: { name: "code-1", mode: "digit", ariaLabel: "Deuxieme chiffre du code" }
       },
       {
         label: "3eme chiffre",
         prompt:
-          "Resolvez l'enigme mathematique laissee par l'eclaireur anglais."
+          "Resolvez l'enigme mathematique laissee par l'eclaireur anglais.",
+        mathPuzzle: {
+          resultName: "code-2"
+        }
       },
       {
         label: "4eme chiffre",
         prompt:
-          "L'eclaireur n'a pas eu le temps de laisser l'enigme. Faites preuve d'ingeniosite."
+          "L'eclaireur n'a pas eu le temps de laisser l'enigme. Faites preuve d'ingeniosite.",
+        box: { name: "code-3", mode: "digit", ariaLabel: "Quatrieme chiffre du code" }
       },
       {
         label: "Lettre et code morse",
@@ -294,11 +290,25 @@ function renderStep() {
       const inputMarkup = task.placeholder
         ? `<input id="${answerKey}" data-answer="${answerKey}" value="${escapeHtml(value)}" placeholder="${task.placeholder}">`
         : "";
+      const imageMarkup = task.image
+        ? `<img class="task-image" src="${task.image.src}" alt="${task.image.alt}">`
+        : "";
+      const puzzleMarkup = task.mathPuzzle
+        ? renderMathPuzzle(state.activeStep, task.mathPuzzle)
+        : "";
+      const boxMarkup = task.box
+        ? renderSimpleBox(state.activeStep, task.box.name, "", task.box.mode, task.box.ariaLabel)
+        : "";
       return `
-        <div class="task">
-          <strong>${task.label}</strong>
-          <p>${task.prompt}</p>
-          ${inputMarkup}
+        <div class="task${task.box ? " task-with-box" : ""}">
+          <div class="task-copy">
+            <strong>${task.label}</strong>
+            <p>${task.prompt}</p>
+            ${imageMarkup}
+            ${puzzleMarkup}
+            ${inputMarkup}
+          </div>
+          ${boxMarkup}
         </div>
       `;
     })
@@ -313,8 +323,8 @@ function renderStep() {
         <div class="directions">${step.directions}</div>
         ${visualMarkup}
         ${worksheetMarkup}
-        ${morseBoxesMarkup}
         <div class="task-list">${taskMarkup}</div>
+        ${morseBoxesMarkup}
         <div class="step-actions">
           <button class="primary-button" id="completeStep" type="button">Marquer l'etape faite</button>
           <button class="secondary-button" id="previousStep" type="button">Etape precedente</button>
@@ -415,6 +425,65 @@ function renderWorksheet(step, stepIndex) {
   }
 
   return "";
+}
+
+function renderMathPuzzle(stepIndex, config) {
+  const cells = [
+    { value: "5" },
+    { name: "math-top-middle" },
+    { value: "2" },
+    { name: "math-middle-left" },
+    { name: "math-middle-middle" },
+    { name: "math-middle-right" },
+    { value: "6" },
+    { name: "math-bottom-middle" },
+    { value: "1" }
+  ];
+
+  const gridCells = cells.map((cell) => {
+    if (cell.value) {
+      return `<div class="math-cell fixed">${cell.value}</div>`;
+    }
+
+    return renderGridInput(stepIndex, cell.name);
+  }).join("");
+
+  return `
+    <div class="math-puzzle" aria-label="Enigme mathematique du troisieme chiffre">
+      <div class="math-column-totals">
+        <span>= 11</span>
+        <span>= 13</span>
+        <span>= 6</span>
+      </div>
+      <div class="math-body">
+        <div class="math-grid">${gridCells}</div>
+        <div class="math-row-totals">
+          <span>= 14</span>
+          <span>=</span>
+          <span>= 9</span>
+        </div>
+        <div class="math-arrow" aria-hidden="true"></div>
+        ${renderSimpleBox(stepIndex, config.resultName, "", "digit", "Troisieme chiffre du code")}
+      </div>
+    </div>
+  `;
+}
+
+function renderGridInput(stepIndex, name) {
+  const key = getBoxKey(stepIndex, name);
+  const value = state.answers[key] || "";
+  return `
+    <input
+      class="math-cell"
+      data-box="${key}"
+      data-mode="digit"
+      value="${escapeHtml(value)}"
+      inputmode="numeric"
+      maxlength="1"
+      autocomplete="off"
+      aria-label="Case de la grille mathematique"
+    >
+  `;
 }
 
 function renderSimpleBox(stepIndex, name, visibleLabel, mode, ariaLabel) {
