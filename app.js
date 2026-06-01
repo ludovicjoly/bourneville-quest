@@ -303,6 +303,7 @@ function renderStep() {
   const finalMarkup = step.finalMessageStep
     ? `
         <div class="final-step-panel">
+          ${renderCollectedClues()}
           <label for="finalMessage">Message obtenu</label>
           <textarea id="finalMessage" rows="5" placeholder="Notez ici le message final une fois les indices reunis.">${escapeHtml(state.finalMessage || "")}</textarea>
           <p class="save-state" id="saveState">Session sauvegardee automatiquement.</p>
@@ -489,6 +490,76 @@ function renderGridInput(stepIndex, name) {
       aria-label="Case de la grille mathematique"
     >
   `;
+}
+
+function renderCollectedClues() {
+  const groups = [
+    { title: "1 - Le Manoir", stepIndex: 0 },
+    { title: "2 - L'Eglise Saint Pierre", stepIndex: 1 },
+    { title: "3 - Pro Patria", inline: true },
+    { title: "4 - La Foret", stepIndex: 3 },
+    { title: "5 - L'Arbre Solitaire", stepIndex: 4 },
+    { title: "6 - La Mairie", stepIndex: 5 }
+  ];
+
+  const rows = groups.map((group) => {
+    const entries = group.inline
+      ? [getInlineMorseEntry(2, "patria-morse", { morse: "___" })]
+      : getStepMorseEntries(group.stepIndex);
+
+    const cells = entries.map((entry) => `
+      <div class="clue-token">
+        <strong>${escapeHtml(entry.letter || "?")}</strong>
+        <span>${escapeHtml(entry.morse || "?")}</span>
+      </div>
+    `).join("");
+
+    return `
+      <div class="clue-row">
+        <span>${group.title}</span>
+        <div class="clue-tokens">${cells}</div>
+      </div>
+    `;
+  }).join("");
+
+  return `
+    <div class="collected-clues">
+      <h3>Indices recoltes</h3>
+      ${rows}
+    </div>
+  `;
+}
+
+function getStepMorseEntries(stepIndex) {
+  const step = steps[stepIndex];
+  if (!step.morseBoxes) {
+    return [];
+  }
+
+  return Array.from({ length: step.morseBoxes.count }, (_, index) => {
+    const prefill = step.morseBoxes.prefill?.[index] || {};
+    const letterKey = getMorseKey(stepIndex, index, "letter");
+    const morseKey = getMorseKey(stepIndex, index, "morse");
+    const letter = Object.prototype.hasOwnProperty.call(prefill, "letter")
+      ? prefill.letter
+      : getStoredValue(letterKey, "");
+    const morse = Object.prototype.hasOwnProperty.call(prefill, "morse")
+      ? prefill.morse
+      : normalizeMorseValue(getStoredValue(morseKey, ""));
+
+    return { letter, morse };
+  });
+}
+
+function getInlineMorseEntry(stepIndex, name, prefill) {
+  const letterKey = getBoxKey(stepIndex, `${name}-letter`);
+  const morseKey = getBoxKey(stepIndex, `${name}-morse`);
+  return {
+    letter: getStoredValue(letterKey, prefill.letter || ""),
+    morse: Object.prototype.hasOwnProperty.call(prefill, "morse")
+      ? prefill.morse
+      : normalizeMorseValue(getStoredValue(morseKey, ""))
+  };
 }
 
 function renderInlineMorseBox(stepIndex, name, prefill, ariaLabel) {

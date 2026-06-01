@@ -608,6 +608,60 @@ button:focus-visible {
   padding: clamp(18px, 4vw, 28px);
 }
 
+.collected-clues {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.collected-clues h3 {
+  margin-bottom: 2px;
+}
+
+.clue-row {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  padding: 10px;
+  background: #fbfcfd;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.clue-row > span {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.clue-tokens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.clue-token {
+  display: grid;
+  min-width: 48px;
+  overflow: hidden;
+  text-align: center;
+  background: #fff;
+  border: 1px solid #2a2f34;
+  border-radius: 4px;
+}
+
+.clue-token strong,
+.clue-token span {
+  padding: 3px 5px;
+  line-height: 1.15;
+}
+
+.clue-token span {
+  font-size: 0.86rem;
+  font-weight: 700;
+  border-top: 1px solid #2a2f34;
+}
+
 .message-image {
   margin-bottom: 18px;
 }
@@ -889,6 +943,20 @@ footer {
   .clue-panel {
     padding: 12px;
     border-radius: 6px;
+  }
+
+  .final-step-panel {
+    padding: 12px 0 0;
+  }
+
+  .clue-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .clue-token {
+    min-width: 44px;
   }
 
   .step-actions {
