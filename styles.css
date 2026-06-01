@@ -199,7 +199,7 @@ main {
 
 .step-tabs {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 8px;
   margin: 18px 0;
 }
@@ -573,7 +573,8 @@ button:focus-visible {
   color: #735117;
 }
 
-.message-panel {
+.message-panel,
+.final-step-panel {
   margin-top: 18px;
   padding: clamp(18px, 4vw, 28px);
 }

@@ -197,6 +197,21 @@ const steps = [
         prompt: "Devant la Mairie, regardez autour de vous et notez l'indice trouve."
       }
     ]
+  },
+  {
+    id: "message-final",
+    name: "Message final",
+    directions: "Vous avez reuni les indices. Decodez maintenant le message laisse par l'eclaireur.",
+    story:
+      "Utilisez les lettres et les codes morse trouves pendant le parcours pour completer le message.",
+    clue: "Relisez les codes notes a chaque etape.",
+    finalMessageStep: true,
+    image: {
+      src: "assets/final-message.png",
+      alt: "Message en code morse laisse par l'eclaireur",
+      label: "Message de l'eclaireur"
+    },
+    tasks: []
   }
 ];
 
@@ -214,8 +229,6 @@ const stepTabs = document.querySelector("#stepTabs");
 const stepView = document.querySelector("#stepView");
 const progressLabel = document.querySelector("#progressLabel");
 const progressBar = document.querySelector("#progressBar");
-const finalMessage = document.querySelector("#finalMessage");
-const saveState = document.querySelector("#saveState");
 const resetGame = document.querySelector("#resetGame");
 
 function loadState() {
@@ -230,7 +243,10 @@ function loadState() {
 function persistState() {
   state.updatedAt = new Date().toISOString();
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  saveState.textContent = "Session sauvegardee automatiquement.";
+  const saveState = document.querySelector("#saveState");
+  if (saveState) {
+    saveState.textContent = "Session sauvegardee automatiquement.";
+  }
 }
 
 function getAnswerKey(stepIndex, taskIndex) {
@@ -313,6 +329,15 @@ function renderStep() {
       `;
     })
     .join("");
+  const finalMarkup = step.finalMessageStep
+    ? `
+        <div class="final-step-panel">
+          <label for="finalMessage">Message obtenu</label>
+          <textarea id="finalMessage" rows="5" placeholder="Notez ici le message final une fois les indices reunis.">${escapeHtml(state.finalMessage || "")}</textarea>
+          <p class="save-state" id="saveState">Session sauvegardee automatiquement.</p>
+        </div>
+      `
+    : "";
 
   stepView.innerHTML = `
     <div class="step-layout">
@@ -325,6 +350,7 @@ function renderStep() {
         ${worksheetMarkup}
         <div class="task-list">${taskMarkup}</div>
         ${morseBoxesMarkup}
+        ${finalMarkup}
         <div class="step-actions">
           <button class="primary-button" id="completeStep" type="button">Marquer l'etape faite</button>
           <button class="secondary-button" id="previousStep" type="button">Etape precedente</button>
@@ -337,6 +363,8 @@ function renderStep() {
       </aside>
     </div>
   `;
+
+  bindFinalMessage();
 
   stepView.querySelectorAll("[data-answer]").forEach((input) => {
     input.addEventListener("input", (event) => {
@@ -586,7 +614,6 @@ function updateProgress() {
 }
 
 function render() {
-  finalMessage.value = state.finalMessage || "";
   renderTabs();
   renderStep();
   updateProgress();
@@ -600,10 +627,17 @@ function escapeHtml(value) {
     .replaceAll('"', "&quot;");
 }
 
-finalMessage.addEventListener("input", (event) => {
-  state.finalMessage = event.target.value;
-  persistState();
-});
+function bindFinalMessage() {
+  const finalMessageInput = document.querySelector("#finalMessage");
+  if (!finalMessageInput) {
+    return;
+  }
+
+  finalMessageInput.addEventListener("input", (event) => {
+    state.finalMessage = event.target.value;
+    persistState();
+  });
+}
 
 resetGame.addEventListener("click", () => {
   const confirmed = window.confirm("Recommencer le jeu et effacer la session enregistree ?");
@@ -613,7 +647,10 @@ resetGame.addEventListener("click", () => {
 
   localStorage.removeItem(STORAGE_KEY);
   state = { ...defaultState };
-  saveState.textContent = "Session remise a zero.";
+  const saveState = document.querySelector("#saveState");
+  if (saveState) {
+    saveState.textContent = "Session remise a zero.";
+  }
   render();
 });
 
