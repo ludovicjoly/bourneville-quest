@@ -341,6 +341,11 @@ main {
   border-top: 2px solid #2a2f34 !important;
 }
 
+.inline-morse-box {
+  width: 72px;
+  flex: 0 0 72px;
+}
+
 .code-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(58px, 72px));
@@ -793,6 +798,11 @@ footer {
 
   .morse-box {
     grid-template-rows: 48px 40px;
+  }
+
+  .inline-morse-box {
+    width: 70px;
+    flex-basis: 70px;
   }
 
   .task-with-box {

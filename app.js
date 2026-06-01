@@ -88,13 +88,6 @@ const steps = [
       type: "proPatria",
       label: "Calcul et lettre obtenue"
     },
-    morseBoxes: {
-      label: "Lettre correspondante et code morse",
-      count: 1,
-      prefill: [
-        { morse: "___" }
-      ]
-    },
     tasks: [
       {
         label: "Nombre de noms",
@@ -429,7 +422,7 @@ function renderWorksheet(step, stepIndex) {
           </div>
           <div class="propatria-line">
             <span>A quelle lettre de l'alphabet correspond ce chiffre ?</span>
-            ${renderSimpleBox(stepIndex, "patria-letter", "", "letter", "Lettre correspondante")}
+            ${renderInlineMorseBox(stepIndex, "patria-morse", { morse: "___" }, "Lettre correspondante et code morse")}
           </div>
         </div>
       </div>
@@ -495,6 +488,45 @@ function renderGridInput(stepIndex, name) {
       autocomplete="off"
       aria-label="Case de la grille mathematique"
     >
+  `;
+}
+
+function renderInlineMorseBox(stepIndex, name, prefill, ariaLabel) {
+  const letterKey = getBoxKey(stepIndex, `${name}-letter`);
+  const morseKey = getBoxKey(stepIndex, `${name}-morse`);
+  const letter = getStoredValue(letterKey, prefill.letter || "");
+  const morse = Object.prototype.hasOwnProperty.call(prefill, "morse")
+    ? prefill.morse
+    : normalizeMorseValue(getStoredValue(morseKey, ""));
+  const morseLocked = Object.prototype.hasOwnProperty.call(prefill, "morse")
+    ? 'readonly data-prefilled="true"'
+    : "";
+
+  return `
+    <div class="morse-box inline-morse-box" aria-label="${ariaLabel}">
+      <input
+        class="morse-letter"
+        data-box="${letterKey}"
+        data-mode="letter"
+        value="${escapeHtml(letter)}"
+        maxlength="1"
+        autocomplete="off"
+        autocapitalize="characters"
+        placeholder="A"
+        aria-label="${ariaLabel} lettre"
+      >
+      <input
+        class="morse-code"
+        data-morse="${morseKey}"
+        data-part="morse"
+        value="${escapeHtml(morse)}"
+        autocomplete="off"
+        inputmode="text"
+        placeholder="._"
+        ${morseLocked}
+        aria-label="${ariaLabel} morse"
+      >
+    </div>
   `;
 }
 
