@@ -314,6 +314,10 @@ main {
   border-radius: 0;
 }
 
+.morse-box input::placeholder {
+  color: #aab3bd;
+}
+
 .morse-letter {
   font-size: 1.35rem;
   font-weight: 800;
@@ -356,11 +360,13 @@ textarea {
 input {
   min-height: 44px;
   padding: 9px 11px;
+  font-size: 1rem;
 }
 
 textarea {
   resize: vertical;
   padding: 11px;
+  font-size: 1rem;
 }
 
 input:focus,
@@ -459,16 +465,89 @@ footer {
   }
 }
 
+@media (max-width: 620px) {
+  main {
+    width: min(100% - 20px, 1060px);
+    padding-top: 12px;
+  }
+
+  .app-header {
+    position: static;
+  }
+
+  .intro,
+  .map-panel,
+  .message-panel,
+  .step-view {
+    border-radius: 6px;
+  }
+
+  .step-tabs {
+    display: flex;
+    gap: 8px;
+    margin: 12px -10px;
+    overflow-x: auto;
+    padding: 0 10px 4px;
+    scroll-snap-type: x proximity;
+  }
+
+  .step-tab {
+    min-width: 112px;
+    min-height: 56px;
+    scroll-snap-align: start;
+  }
+
+  .step-view {
+    min-height: 0;
+  }
+
+  .visual-panel {
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+
+  .step-visual {
+    min-width: min(540px, 140vw);
+  }
+
+  .morse-grid {
+    grid-template-columns: repeat(auto-fit, minmax(78px, 1fr));
+    gap: 8px;
+  }
+
+  .morse-box {
+    grid-template-rows: 54px 44px;
+  }
+
+  .morse-letter {
+    font-size: 1.45rem;
+  }
+
+  .morse-code {
+    font-size: 1.05rem;
+  }
+
+  .step-actions {
+    display: grid;
+  }
+
+  .primary-button,
+  .secondary-button {
+    width: 100%;
+  }
+}
+
 @media (max-width: 460px) {
   .app-header {
     padding: 14px;
   }
 
-  .step-tabs {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .step-name {
     white-space: normal;
+  }
+
+  .map-panel img,
+  .message-image {
+    border-radius: 4px;
   }
 }

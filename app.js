@@ -351,6 +351,8 @@ function renderMorseBoxes(step, stepIndex) {
           value="${escapeHtml(letter)}"
           maxlength="1"
           autocomplete="off"
+          autocapitalize="characters"
+          placeholder="A"
           aria-label="Lettre ${index + 1}"
         >
         <label class="sr-only" for="${morseKey}">Code morse ${index + 1}</label>
@@ -362,6 +364,7 @@ function renderMorseBoxes(step, stepIndex) {
           value="${escapeHtml(morse)}"
           autocomplete="off"
           inputmode="text"
+          placeholder=".-"
           aria-label="Code morse ${index + 1}"
         >
       </div>
