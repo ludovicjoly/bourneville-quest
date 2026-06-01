@@ -17,12 +17,12 @@ const steps = [
       label: "Mot et codes morse",
       count: 7,
       prefill: [
-        { morse: ".-" },
-        { morse: "-..." },
+        { morse: "._" },
+        { morse: "_..." },
         { morse: "." },
         { morse: ".." },
-        { morse: ".-.." },
-        { morse: ".-.." },
+        { morse: "._.." },
+        { morse: "._.." },
         { morse: "." }
       ]
     },
@@ -164,8 +164,8 @@ const steps = [
       label: "Deux lettres et leurs codes morse",
       count: 2,
       prefill: [
-        { morse: "-.." },
-        { morse: ".-." }
+        { morse: "_.." },
+        { morse: "._." }
       ]
     },
     tasks: [
@@ -331,7 +331,7 @@ function renderStep() {
 
       const value = event.target.dataset.part === "letter"
         ? event.target.value.toUpperCase().slice(0, 1)
-        : event.target.value.replace(/[^.\-\s/]/g, "");
+        : event.target.value.replace(/-/g, "_").replace(/[^._\s/]/g, "");
       event.target.value = value;
       state.answers[event.target.dataset.morse] = value;
       persistState();
@@ -396,7 +396,7 @@ function renderMorseBoxes(step, stepIndex) {
           value="${escapeHtml(morse)}"
           autocomplete="off"
           inputmode="text"
-          placeholder=".-"
+          placeholder="._"
           ${morseLocked}
           aria-label="Code morse ${index + 1}"
         >
