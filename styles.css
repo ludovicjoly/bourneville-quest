@@ -367,7 +367,7 @@ main {
 }
 
 .propatria-line > span:first-child {
-  min-width: 150px;
+  min-width: 230px;
   color: var(--muted);
   font-weight: 700;
 }

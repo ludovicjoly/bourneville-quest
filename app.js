@@ -415,11 +415,6 @@ function renderWorksheet(step, stepIndex) {
       <div class="worksheet-panel">
         <span>${step.worksheet.label}</span>
         <div class="propatria-sheet">
-          <div class="propatria-line">
-            <span>Nombre trouve</span>
-            ${renderSimpleBox(stepIndex, "patria-count-1", "", "digit", "Dizaine du nombre de noms")}
-            ${renderSimpleBox(stepIndex, "patria-count-2", "", "digit", "Unite du nombre de noms")}
-          </div>
           <div class="propatria-formula">
             <strong>10</strong>
             <span>+</span>
@@ -430,7 +425,7 @@ function renderWorksheet(step, stepIndex) {
             ${renderSimpleBox(stepIndex, "patria-result", "", "digit", "Resultat")}
           </div>
           <div class="propatria-line">
-            <span>Lettre de l'alphabet</span>
+            <span>A quelle lettre de l'alphabet correspond ce chiffre ?</span>
             ${renderSimpleBox(stepIndex, "patria-letter", "", "letter", "Lettre correspondante")}
           </div>
         </div>
