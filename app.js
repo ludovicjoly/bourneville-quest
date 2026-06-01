@@ -90,7 +90,10 @@ const steps = [
     },
     morseBoxes: {
       label: "Lettre correspondante et code morse",
-      count: 1
+      count: 1,
+      prefill: [
+        { morse: "___" }
+      ]
     },
     tasks: [
       {
