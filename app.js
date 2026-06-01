@@ -4,7 +4,7 @@ const steps = [
   {
     id: "manoir",
     name: "Le Manoir",
-    directions: "Depuis la maison des metiers, remontez de 170 m en direction du chemin du manoir.",
+    directions: "Depuis la maison des metiers, remontez de 170m en direction du chemin du manoir.",
     story:
       "Cherchez un labyrinthe a l'entree du chemin et trouvez le parcours qui mene jusqu'a la croix de guerre.",
     clue: "Son travail est essentiel a la pollinisation.",
@@ -33,7 +33,7 @@ const steps = [
     id: "eglise",
     name: "L'Eglise Saint Pierre",
     directions:
-      "Suivez le chemin vers l'ouest pendant 200 m. Face au choix de direction, observez la fumee : elle semble s'orienter vers le Sud. Continuez 140 m.",
+      "Suivez le chemin en direction de l'ouest pendant 200m. Face a un choix de direction, observez la fumee pour qu'elle vous guide sur la bonne voie. Il semble qu'elle s'oriente vers le Sud. Continuez 140m.",
     story:
       "Vous devez trouver les 4 chiffres d'un code secret qui ouvrira une boite a cles.",
     clue: "Les chiffres du code sont uniques.",
@@ -79,7 +79,7 @@ const steps = [
     id: "pro-patria",
     name: "Pro Patria",
     directions:
-      "Partez en direction du carrefour. Depuis ce point strategique, cherchez le monument commemoratif a portee de vue.",
+      "Partez en direction du carrefour. Depuis ce point strategique vous pouvez observer plusieurs directions. La bonne vous guide vers un monument commemoratif a portee de vue.",
     story:
       "Faites le tour du monument aux morts pour compter le nombre de noms de familles inscrits dans la pierre.",
     clue:
@@ -103,7 +103,7 @@ const steps = [
     id: "foret",
     name: "La Foret",
     directions:
-      "Rejoignez la place non loin de vous et continuez par la sente verdoyante.",
+      "Vous etes trop a decouvert pres des grands axes. Il vous faut emprunter les chemins pour plus de discretion. Rejoignez la place non loin de vous et continuez par la sente verdoyante.",
     story:
       "L'eclaireur anglais vous a laisse un puzzle quelque part sous les arbres.",
     clue: "N'oubliez pas ce que vous connaissez deja.",
@@ -132,7 +132,7 @@ const steps = [
     id: "arbre",
     name: "L'Arbre Solitaire",
     directions:
-      "Vous etes de nouveau dans une zone a decouvert. Passez au pied de l'arbre solitaire.",
+      "Continuez sur la sente. En sortie, tournez a gauche vers le Nord. 60m plus loin, tournez a droite vers l'Est et marchez 400m. La fumee vous montre toujours la voie quand vous hesitez...",
     story:
       "Vous pourrez probablement y decouvrir l'avant-dernier indice laisse par l'eclaireur.",
     clue: "Quelles sont les deux lettres qui abregent le mot Docteur ?",
