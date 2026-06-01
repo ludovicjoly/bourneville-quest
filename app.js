@@ -84,11 +84,6 @@ const steps = [
       "Faites le tour du monument aux morts pour compter le nombre de noms de familles inscrits dans la pierre.",
     clue:
       "Additionnez les chiffres du nombre trouve, puis cherchez la lettre correspondante dans l'alphabet.",
-    image: {
-      src: "assets/pro-patria-formula.png",
-      alt: "Formule Pro Patria pour convertir le nombre en lettre",
-      label: "Calcul du support"
-    },
     worksheet: {
       type: "proPatria",
       label: "Calcul et lettre obtenue"
@@ -419,14 +414,25 @@ function renderWorksheet(step, stepIndex) {
     return `
       <div class="worksheet-panel">
         <span>${step.worksheet.label}</span>
-        <div class="formula-row">
-          <strong>10</strong>
-          <span>+</span>
-          ${renderSimpleBox(stepIndex, "patria-digit-1", "", "digit", "Premier chiffre additionne")}
-          <span>+</span>
-          ${renderSimpleBox(stepIndex, "patria-digit-2", "", "digit", "Deuxieme chiffre additionne")}
-          <span>=</span>
-          ${renderSimpleBox(stepIndex, "patria-result", "", "digit", "Resultat")}
+        <div class="propatria-sheet">
+          <div class="propatria-line">
+            <span>Nombre trouve</span>
+            ${renderSimpleBox(stepIndex, "patria-count-1", "", "digit", "Dizaine du nombre de noms")}
+            ${renderSimpleBox(stepIndex, "patria-count-2", "", "digit", "Unite du nombre de noms")}
+          </div>
+          <div class="propatria-formula">
+            <strong>10</strong>
+            <span>+</span>
+            ${renderSimpleBox(stepIndex, "patria-digit-1", "", "digit", "Premier chiffre additionne")}
+            <span>+</span>
+            ${renderSimpleBox(stepIndex, "patria-digit-2", "", "digit", "Deuxieme chiffre additionne")}
+            <span>=</span>
+            ${renderSimpleBox(stepIndex, "patria-result", "", "digit", "Resultat")}
+          </div>
+          <div class="propatria-line">
+            <span>Lettre de l'alphabet</span>
+            ${renderSimpleBox(stepIndex, "patria-letter", "", "letter", "Lettre correspondante")}
+          </div>
         </div>
       </div>
     `;

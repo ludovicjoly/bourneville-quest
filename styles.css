@@ -347,12 +347,34 @@ main {
   gap: 10px;
 }
 
-.formula-row {
+.formula-row,
+.propatria-formula,
+.propatria-line {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   align-items: center;
   font-size: 1.1rem;
+}
+
+.propatria-sheet {
+  display: grid;
+  gap: 12px;
+  padding: 12px;
+  background: #fbfcfd;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.propatria-line > span:first-child {
+  min-width: 150px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.propatria-formula {
+  padding-top: 4px;
+  font-size: 1.2rem;
 }
 
 .answer-box-label {
@@ -830,6 +852,20 @@ footer {
     width: 100%;
     height: 52px;
     font-size: 1.18rem;
+  }
+
+  .propatria-sheet {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .propatria-line > span:first-child {
+    min-width: 100%;
+  }
+
+  .propatria-formula,
+  .propatria-line {
+    gap: 7px;
   }
 
   .morse-letter {
