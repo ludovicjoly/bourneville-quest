@@ -1,4 +1,4 @@
-# Chocolate Village - Jeu de piste
+# Bourneville Quest - Jeu de piste
 
 Site statique pour jouer au jeu de piste depuis un telephone ou un ordinateur.
 

@@ -1,4 +1,4 @@
-const STORAGE_KEY = "chocolate-village-session-v1";
+const STORAGE_KEY = "bourneville-quest-session-v1";
 
 const steps = [
   {
