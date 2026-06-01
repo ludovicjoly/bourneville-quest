@@ -89,6 +89,7 @@ main {
 }
 
 .intro,
+.map-panel,
 .message-panel,
 .step-view {
   background: var(--panel);
@@ -105,8 +106,27 @@ main {
   padding: clamp(18px, 4vw, 28px);
 }
 
+.intro-banner {
+  display: block;
+  width: min(100%, 620px);
+  height: auto;
+  margin-bottom: 18px;
+}
+
 .intro-copy p:last-child {
   margin-bottom: 0;
+}
+
+.intro-media {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+
+.portrait {
+  width: min(140px, 55%);
+  height: auto;
+  justify-self: center;
 }
 
 .progress-panel {
@@ -139,6 +159,25 @@ main {
   background: #fff;
   border-radius: inherit;
   transition: width 180ms ease;
+}
+
+.map-panel {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 22px;
+  align-items: center;
+  margin-top: 18px;
+  padding: clamp(18px, 4vw, 28px);
+}
+
+.map-panel img,
+.step-visual,
+.message-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
 }
 
 .icon-button {
@@ -227,6 +266,18 @@ main {
   display: grid;
   gap: 14px;
   margin: 18px 0 0;
+}
+
+.visual-panel {
+  display: grid;
+  gap: 10px;
+  margin: 18px 0 0;
+}
+
+.visual-panel span {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 700;
 }
 
 .task {
@@ -318,6 +369,10 @@ button:focus-visible {
   padding: clamp(18px, 4vw, 28px);
 }
 
+.message-image {
+  margin-bottom: 18px;
+}
+
 .save-state {
   margin: 8px 0 0;
   color: var(--green);
@@ -343,6 +398,7 @@ footer {
 
 @media (max-width: 780px) {
   .intro,
+  .map-panel,
   .step-layout {
     grid-template-columns: 1fr;
   }

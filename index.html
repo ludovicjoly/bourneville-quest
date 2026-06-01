@@ -22,22 +22,44 @@
     <main>
       <section class="intro" id="intro">
         <div class="intro-copy">
+          <img class="intro-banner" src="assets/operation-banner.png" alt="Document de mission Operation Chocolate Village">
           <p>
-            Bonjour, je m'appelle Marie et je suis resistante en Normandie.
-            Un eclaireur anglais a laisse des indices derriere lui pour decoder son message.
+            Bonjour, je m'appelle <strong>Marie</strong> et je suis r&eacute;sistante en Normandie.
+            Depuis le 13 aout 1944, les bombardements se rapprochent progressivement de Bourneville.
           </p>
           <p>
-            Avancez d'etape en etape, notez vos reponses, puis revenez ici quand vous voulez :
-            votre session reste enregistree sur cet appareil.
+            Cela fait maintenant une semaine que les autres habitants et moi-meme avons recu
+            l'ordre de quitter nos maisons du centre bourg pour nous r&eacute;fugier dans les fermes environnantes.
+          </p>
+          <p>
+            Aujourd'hui, le 26 aout 1944, un &eacute;claireur anglais a r&eacute;ussi a s'infiltrer
+            dans Bourneville pour nous d&eacute;livrer un message et pr&eacute;parer une mission secrete.
+            Nom de code : <strong>CHOCOLATE VILLAGE</strong>.
+          </p>
+          <p>
+            Il a laiss&eacute; des indices derriere lui pour d&eacute;coder son message.
+            J'ai besoin de vous des maintenant, un &eacute;v&egrave;nement majeur se pr&eacute;pare...
           </p>
         </div>
-        <div class="progress-panel" aria-live="polite">
-          <strong id="progressLabel">0 / 6</strong>
-          <span>etapes completees</span>
-          <div class="progress-track">
-            <div id="progressBar" class="progress-bar"></div>
+        <div class="intro-media">
+          <img class="portrait" src="assets/marie-portrait.png" alt="Portrait de Marie">
+          <div class="progress-panel" aria-live="polite">
+            <strong id="progressLabel">0 / 6</strong>
+            <span>etapes completees</span>
+            <div class="progress-track">
+              <div id="progressBar" class="progress-bar"></div>
+            </div>
           </div>
         </div>
+      </section>
+
+      <section class="map-panel">
+        <div>
+          <p class="section-label">Plan du parcours</p>
+          <h2>Voici le plan et les enigmes a resoudre</h2>
+          <p>Depuis la maison des metiers, remontez de 170 m en direction du chemin du manoir.</p>
+        </div>
+        <img src="assets/route-map.png" alt="Plan dessine du jeu de piste dans Bourneville">
       </section>
 
       <nav class="step-tabs" id="stepTabs" aria-label="Etapes du jeu"></nav>
@@ -49,6 +71,7 @@
           <p class="section-label">Message de l'eclaireur</p>
           <h2>Votre decodage final</h2>
         </div>
+        <img class="message-image" src="assets/final-message.png" alt="Message en code morse laisse par l'eclaireur">
         <label for="finalMessage">Message obtenu</label>
         <textarea id="finalMessage" rows="4" placeholder="Notez ici le message final une fois les indices reunis."></textarea>
         <p class="save-state" id="saveState">Session sauvegardee automatiquement.</p>

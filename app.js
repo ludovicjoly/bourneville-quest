@@ -8,6 +8,11 @@ const steps = [
     story:
       "Cherchez un labyrinthe a l'entree du chemin et trouvez le parcours qui mene jusqu'a la croix de guerre.",
     clue: "Son travail est essentiel a la pollinisation.",
+    image: {
+      src: "assets/step1-morse.png",
+      alt: "Cases en code morse a remplir pour le mot de 7 lettres",
+      label: "Cases du support"
+    },
     tasks: [
       {
         label: "Mot de 7 lettres",
@@ -25,6 +30,11 @@ const steps = [
     story:
       "Vous devez trouver les 4 chiffres d'un code secret qui ouvrira une boite a cles.",
     clue: "Les chiffres du code sont uniques.",
+    image: {
+      src: "assets/eglise-grid.png",
+      alt: "Grille mathematique de l'enigme du troisieme chiffre",
+      label: "Enigme mathematique"
+    },
     tasks: [
       {
         label: "1er chiffre",
@@ -67,6 +77,11 @@ const steps = [
       "Faites le tour du monument aux morts pour compter le nombre de noms de familles inscrits dans la pierre.",
     clue:
       "Additionnez les chiffres du nombre trouve, puis cherchez la lettre correspondante dans l'alphabet.",
+    image: {
+      src: "assets/pro-patria-formula.png",
+      alt: "Formule Pro Patria pour convertir le nombre en lettre",
+      label: "Calcul du support"
+    },
     tasks: [
       {
         label: "Nombre de noms",
@@ -88,6 +103,11 @@ const steps = [
     story:
       "L'eclaireur anglais vous a laisse un puzzle quelque part sous les arbres.",
     clue: "N'oubliez pas ce que vous connaissez deja.",
+    image: {
+      src: "assets/foret-puzzle.png",
+      alt: "Cases du puzzle de la foret",
+      label: "Puzzle du support"
+    },
     tasks: [
       {
         label: "Nom de code",
@@ -105,6 +125,11 @@ const steps = [
     story:
       "Vous pourrez probablement y decouvrir l'avant-dernier indice laisse par l'eclaireur.",
     clue: "Quelles sont les deux lettres qui abregent le mot Docteur ?",
+    image: {
+      src: "assets/arbre-morse.png",
+      alt: "Deux cases en code morse pour l'arbre solitaire",
+      label: "Cases du support"
+    },
     tasks: [
       {
         label: "Indice trouve",
@@ -120,6 +145,11 @@ const steps = [
     story:
       "Vous etes arrive a la derniere etape pour decoder le message de l'eclaireur.",
     clue: "Les informations sont souvent bien affichees aux yeux de tous.",
+    image: {
+      src: "assets/mairie-box.png",
+      alt: "Case de reponse pour la mairie",
+      label: "Case du support"
+    },
     tasks: [
       {
         label: "Dernier indice",
@@ -191,6 +221,14 @@ function renderTabs() {
 
 function renderStep() {
   const step = steps[state.activeStep];
+  const visualMarkup = step.image
+    ? `
+        <div class="visual-panel">
+          <span>${step.image.label}</span>
+          <img class="step-visual" src="${step.image.src}" alt="${step.image.alt}">
+        </div>
+      `
+    : "";
   const taskMarkup = step.tasks
     .map((task, taskIndex) => {
       const answerKey = getAnswerKey(state.activeStep, taskIndex);
@@ -212,6 +250,7 @@ function renderStep() {
         <h2>${step.name}</h2>
         <p class="story">${step.story}</p>
         <div class="directions">${step.directions}</div>
+        ${visualMarkup}
         <div class="task-list">${taskMarkup}</div>
         <div class="step-actions">
           <button class="primary-button" id="completeStep" type="button">Marquer l'etape faite</button>
