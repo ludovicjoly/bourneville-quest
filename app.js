@@ -30,8 +30,7 @@ const steps = [
       {
         label: "Mot de 7 lettres",
         prompt:
-          "Recopiez les lettres dans l'ordre ou vous les rencontrez. Ce mot servira a traduire le code morse du message.",
-        placeholder: "Votre mot"
+          "Recopiez les lettres dans l'ordre ou vous les rencontrez. Ce mot servira a traduire le code morse du message."
       }
     ]
   },
@@ -52,36 +51,36 @@ const steps = [
       label: "Lettre et code morse trouves dans la boite",
       count: 1
     },
+    worksheet: {
+      type: "code",
+      label: "Code secret de la boite",
+      count: 4
+    },
     tasks: [
       {
         label: "1er chiffre",
         prompt:
-          "Trouvez le vieux conifere present dans le cimetiere. Combien y a-t-il de lettres dans le nom de cet arbre ?",
-        placeholder: "Chiffre"
+          "Trouvez le vieux conifere present dans le cimetiere. Combien y a-t-il de lettres dans le nom de cet arbre ?"
       },
       {
         label: "2eme chiffre",
         prompt:
-          "Observez le sommet de l'eglise. Combien y a-t-il de lettres dans le nom de l'oiseau qui indique le sens du vent ?",
-        placeholder: "Chiffre"
+          "Observez le sommet de l'eglise. Combien y a-t-il de lettres dans le nom de l'oiseau qui indique le sens du vent ?"
       },
       {
         label: "3eme chiffre",
         prompt:
-          "Resolvez l'enigme mathematique laissee par l'eclaireur anglais.",
-        placeholder: "Chiffre"
+          "Resolvez l'enigme mathematique laissee par l'eclaireur anglais."
       },
       {
         label: "4eme chiffre",
         prompt:
-          "L'eclaireur n'a pas eu le temps de laisser l'enigme. Faites preuve d'ingeniosite.",
-        placeholder: "Chiffre"
+          "L'eclaireur n'a pas eu le temps de laisser l'enigme. Faites preuve d'ingeniosite."
       },
       {
         label: "Lettre et code morse",
         prompt:
-          "Notez la lettre et son code morse trouves dans la boite. Refermez la boite et brouillez le code.",
-        placeholder: "Exemple : A = .-"
+          "Notez la lettre et son code morse trouves dans la boite. Refermez la boite et brouillez le code."
       }
     ]
   },
@@ -99,16 +98,22 @@ const steps = [
       alt: "Formule Pro Patria pour convertir le nombre en lettre",
       label: "Calcul du support"
     },
+    worksheet: {
+      type: "proPatria",
+      label: "Calcul et lettre obtenue"
+    },
+    morseBoxes: {
+      label: "Lettre correspondante et code morse",
+      count: 1
+    },
     tasks: [
       {
         label: "Nombre de noms",
-        prompt: "Combien de noms de familles avez-vous comptes ?",
-        placeholder: "Nombre"
+        prompt: "Comptez le nombre de noms de familles inscrits dans la pierre, puis additionnez les chiffres du nombre trouve."
       },
       {
         label: "Lettre obtenue",
-        prompt: "A quelle lettre de l'alphabet correspond le resultat ?",
-        placeholder: "Lettre"
+        prompt: "Reportez le resultat et la lettre correspondante dans les cases."
       }
     ]
   },
@@ -142,8 +147,7 @@ const steps = [
       {
         label: "Nom de code",
         prompt:
-          "Mettez le puzzle dans le bon ordre pour decouvrir le nom de code de l'operation de grande ampleur en Normandie.",
-        placeholder: "Nom de code"
+          "Mettez le puzzle dans le bon ordre pour decouvrir le nom de code de l'operation de grande ampleur en Normandie."
       }
     ]
   },
@@ -171,8 +175,7 @@ const steps = [
     tasks: [
       {
         label: "Indice trouve",
-        prompt: "Notez les deux lettres obtenues.",
-        placeholder: "Deux lettres"
+        prompt: "Notez les deux lettres obtenues."
       }
     ]
   },
@@ -195,8 +198,7 @@ const steps = [
     tasks: [
       {
         label: "Dernier indice",
-        prompt: "Devant la Mairie, regardez autour de vous et notez l'indice trouve.",
-        placeholder: "Indice"
+        prompt: "Devant la Mairie, regardez autour de vous et notez l'indice trouve."
       }
     ]
   }
@@ -243,6 +245,10 @@ function getMorseKey(stepIndex, boxIndex, part) {
   return `${steps[stepIndex].id}-morse-${boxIndex}-${part}`;
 }
 
+function getBoxKey(stepIndex, name) {
+  return `${steps[stepIndex].id}-box-${name}`;
+}
+
 function renderTabs() {
   stepTabs.innerHTML = "";
 
@@ -278,15 +284,21 @@ function renderStep() {
   const morseBoxesMarkup = step.morseBoxes
     ? renderMorseBoxes(step, state.activeStep)
     : "";
+  const worksheetMarkup = step.worksheet
+    ? renderWorksheet(step, state.activeStep)
+    : "";
   const taskMarkup = step.tasks
     .map((task, taskIndex) => {
       const answerKey = getAnswerKey(state.activeStep, taskIndex);
       const value = state.answers[answerKey] || "";
+      const inputMarkup = task.placeholder
+        ? `<input id="${answerKey}" data-answer="${answerKey}" value="${escapeHtml(value)}" placeholder="${task.placeholder}">`
+        : "";
       return `
         <div class="task">
-          <label for="${answerKey}">${task.label}</label>
+          <strong>${task.label}</strong>
           <p>${task.prompt}</p>
-          <input id="${answerKey}" data-answer="${answerKey}" value="${escapeHtml(value)}" placeholder="${task.placeholder}">
+          ${inputMarkup}
         </div>
       `;
     })
@@ -300,6 +312,7 @@ function renderStep() {
         <p class="story">${step.story}</p>
         <div class="directions">${step.directions}</div>
         ${visualMarkup}
+        ${worksheetMarkup}
         ${morseBoxesMarkup}
         <div class="task-list">${taskMarkup}</div>
         <div class="step-actions">
@@ -338,6 +351,16 @@ function renderStep() {
     });
   });
 
+  stepView.querySelectorAll("[data-box]").forEach((input) => {
+    input.addEventListener("input", (event) => {
+      const mode = event.target.dataset.mode;
+      const value = formatBoxValue(event.target.value, mode);
+      event.target.value = value;
+      state.answers[event.target.dataset.box] = value;
+      persistState();
+    });
+  });
+
   document.querySelector("#completeStep").addEventListener("click", () => {
     state.completed[step.id] = true;
     if (state.activeStep < steps.length - 1) {
@@ -358,6 +381,72 @@ function renderStep() {
     persistState();
     render();
   });
+}
+
+function renderWorksheet(step, stepIndex) {
+  if (step.worksheet.type === "code") {
+    const boxes = Array.from({ length: step.worksheet.count }, (_, index) =>
+      renderSimpleBox(stepIndex, `code-${index}`, `${index + 1}`, "digit", `Chiffre ${index + 1}`)
+    ).join("");
+
+    return `
+      <div class="worksheet-panel">
+        <span>${step.worksheet.label}</span>
+        <div class="code-grid">${boxes}</div>
+      </div>
+    `;
+  }
+
+  if (step.worksheet.type === "proPatria") {
+    return `
+      <div class="worksheet-panel">
+        <span>${step.worksheet.label}</span>
+        <div class="formula-row">
+          <strong>10</strong>
+          <span>+</span>
+          ${renderSimpleBox(stepIndex, "patria-digit-1", "", "digit", "Premier chiffre additionne")}
+          <span>+</span>
+          ${renderSimpleBox(stepIndex, "patria-digit-2", "", "digit", "Deuxieme chiffre additionne")}
+          <span>=</span>
+          ${renderSimpleBox(stepIndex, "patria-result", "", "digit", "Resultat")}
+        </div>
+      </div>
+    `;
+  }
+
+  return "";
+}
+
+function renderSimpleBox(stepIndex, name, visibleLabel, mode, ariaLabel) {
+  const key = getBoxKey(stepIndex, name);
+  const value = state.answers[key] || "";
+  return `
+    <label class="answer-box-label">
+      <span>${visibleLabel}</span>
+      <input
+        class="answer-box"
+        data-box="${key}"
+        data-mode="${mode}"
+        value="${escapeHtml(value)}"
+        inputmode="${mode === "digit" ? "numeric" : "text"}"
+        maxlength="${mode === "digit" ? "1" : "2"}"
+        autocomplete="off"
+        aria-label="${ariaLabel}"
+      >
+    </label>
+  `;
+}
+
+function formatBoxValue(value, mode) {
+  if (mode === "digit") {
+    return value.replace(/\D/g, "").slice(0, 1);
+  }
+
+  if (mode === "letter") {
+    return value.toUpperCase().replace(/[^A-Z]/g, "").slice(0, 1);
+  }
+
+  return value;
 }
 
 function renderMorseBoxes(step, stepIndex) {
