@@ -177,11 +177,6 @@ const steps = [
       "Utilisez les lettres et les codes morse trouves pendant le parcours pour completer le message.",
     clue: "Relisez les codes notes a chaque etape.",
     finalMessageStep: true,
-    image: {
-      src: "assets/final-message.png",
-      alt: "Message en code morse laisse par l'eclaireur",
-      label: "Message de l'eclaireur"
-    },
     tasks: []
   }
 ];
@@ -304,9 +299,7 @@ function renderStep() {
     ? `
         <div class="final-step-panel">
           ${renderCollectedClues()}
-          <label for="finalMessage">Message obtenu</label>
-          <textarea id="finalMessage" rows="5" placeholder="Notez ici le message final une fois les indices reunis.">${escapeHtml(state.finalMessage || "")}</textarea>
-          <p class="save-state" id="saveState">Session sauvegardee automatiquement.</p>
+          ${renderScoutMessage()}
         </div>
       `
     : "";
@@ -335,8 +328,6 @@ function renderStep() {
       </aside>
     </div>
   `;
-
-  bindFinalMessage();
 
   stepView.querySelectorAll("[data-answer]").forEach((input) => {
     input.addEventListener("input", (event) => {
@@ -530,6 +521,58 @@ function renderCollectedClues() {
   `;
 }
 
+function renderScoutMessage() {
+  const lines = [
+    ["_", "__", "._", "._.", "_", ".", "..._", "..", "._..", "._..", "."],
+    ["_...", ".", "__.", ".", "._.", ".", "_"],
+    ["_..", ".", "__", "._", "..", "_."]
+  ];
+
+  const rows = lines.map((line, lineIndex) => `
+    <div class="scout-message-line">
+      ${line.map((morse, boxIndex) =>
+        renderFinalMorseBox(lineIndex, boxIndex, morse)
+      ).join("")}
+    </div>
+  `).join("");
+
+  return `
+    <div class="scout-message">
+      <h3>Message de l'eclaireur</h3>
+      ${rows}
+      <p class="save-state" id="saveState">Session sauvegardee automatiquement.</p>
+    </div>
+  `;
+}
+
+function renderFinalMorseBox(lineIndex, boxIndex, morse) {
+  const letterKey = `message-final-${lineIndex}-${boxIndex}-letter`;
+  const letter = getStoredValue(letterKey, "");
+
+  return `
+    <div class="morse-box scout-message-box">
+      <input
+        class="morse-letter"
+        data-box="${letterKey}"
+        data-mode="letter"
+        value="${escapeHtml(letter)}"
+        maxlength="1"
+        autocomplete="off"
+        autocapitalize="characters"
+        placeholder="A"
+        aria-label="Lettre du message ${lineIndex + 1}-${boxIndex + 1}"
+      >
+      <input
+        class="morse-code"
+        value="${escapeHtml(morse)}"
+        readonly
+        data-prefilled="true"
+        aria-label="Code morse du message ${lineIndex + 1}-${boxIndex + 1}"
+      >
+    </div>
+  `;
+}
+
 function getStepMorseEntries(stepIndex) {
   const step = steps[stepIndex];
   if (!step.morseBoxes) {
@@ -716,18 +759,6 @@ function escapeHtml(value) {
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
-}
-
-function bindFinalMessage() {
-  const finalMessageInput = document.querySelector("#finalMessage");
-  if (!finalMessageInput) {
-    return;
-  }
-
-  finalMessageInput.addEventListener("input", (event) => {
-    state.finalMessage = event.target.value;
-    persistState();
-  });
 }
 
 resetGame.addEventListener("click", () => {

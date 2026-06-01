@@ -173,8 +173,7 @@ main {
 }
 
 .map-panel img,
-.step-visual,
-.message-image {
+.step-visual {
   display: block;
   width: 100%;
   height: auto;
@@ -662,8 +661,38 @@ button:focus-visible {
   border-top: 1px solid #2a2f34;
 }
 
-.message-image {
-  margin-bottom: 18px;
+.scout-message {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+  padding: clamp(16px, 4vw, 26px);
+  background:
+    linear-gradient(rgba(255, 248, 229, 0.82), rgba(255, 248, 229, 0.82)),
+    radial-gradient(circle at 18% 20%, rgba(138, 96, 43, 0.16), transparent 28%),
+    radial-gradient(circle at 80% 70%, rgba(138, 96, 43, 0.12), transparent 30%),
+    #efe1bf;
+  border: 1px solid #d9bd86;
+  border-radius: 8px;
+}
+
+.scout-message h3 {
+  margin-bottom: 0;
+  text-align: center;
+  font-family: "Courier New", Courier, monospace;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.scout-message-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.scout-message-box {
+  width: 58px;
+  flex: 0 0 58px;
 }
 
 .save-state {
@@ -980,8 +1009,7 @@ footer {
     white-space: normal;
   }
 
-  .map-panel img,
-  .message-image {
+  .map-panel img {
     border-radius: 4px;
   }
 }
