@@ -318,6 +318,12 @@ main {
   color: #aab3bd;
 }
 
+.morse-box input[readonly] {
+  color: #111820;
+  background: #f1f3f5;
+  cursor: default;
+}
+
 .morse-letter {
   font-size: 1.35rem;
   font-weight: 800;

@@ -325,6 +325,10 @@ function renderStep() {
 
   stepView.querySelectorAll("[data-morse]").forEach((input) => {
     input.addEventListener("input", (event) => {
+      if (event.target.readOnly) {
+        return;
+      }
+
       const value = event.target.dataset.part === "letter"
         ? event.target.value.toUpperCase().slice(0, 1)
         : event.target.value.replace(/[^.\-\s/]/g, "");
@@ -361,8 +365,12 @@ function renderMorseBoxes(step, stepIndex) {
     const letterKey = getMorseKey(stepIndex, index, "letter");
     const morseKey = getMorseKey(stepIndex, index, "morse");
     const prefill = step.morseBoxes.prefill?.[index] || {};
-    const letter = getStoredValue(letterKey, prefill.letter || "");
-    const morse = getStoredValue(morseKey, prefill.morse || "");
+    const hasPrefilledLetter = Object.prototype.hasOwnProperty.call(prefill, "letter");
+    const hasPrefilledMorse = Object.prototype.hasOwnProperty.call(prefill, "morse");
+    const letter = hasPrefilledLetter ? prefill.letter : getStoredValue(letterKey, "");
+    const morse = hasPrefilledMorse ? prefill.morse : getStoredValue(morseKey, "");
+    const letterLocked = hasPrefilledLetter ? 'readonly data-prefilled="true"' : "";
+    const morseLocked = hasPrefilledMorse ? 'readonly data-prefilled="true"' : "";
     return `
       <div class="morse-box">
         <label class="sr-only" for="${letterKey}">Lettre ${index + 1}</label>
@@ -376,6 +384,7 @@ function renderMorseBoxes(step, stepIndex) {
           autocomplete="off"
           autocapitalize="characters"
           placeholder="A"
+          ${letterLocked}
           aria-label="Lettre ${index + 1}"
         >
         <label class="sr-only" for="${morseKey}">Code morse ${index + 1}</label>
@@ -388,6 +397,7 @@ function renderMorseBoxes(step, stepIndex) {
           autocomplete="off"
           inputmode="text"
           placeholder=".-"
+          ${morseLocked}
           aria-label="Code morse ${index + 1}"
         >
       </div>
