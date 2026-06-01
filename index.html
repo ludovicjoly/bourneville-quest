@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#17324d">
+    <title>Chocolate Village - Jeu de piste</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="kicker">Bourneville - 26 aout 1944</p>
+        <h1>Chocolate Village</h1>
+      </div>
+      <button class="icon-button" id="resetGame" type="button" title="Recommencer">
+        <span aria-hidden="true">R</span>
+        <span class="sr-only">Recommencer</span>
+      </button>
+    </header>
+
+    <main>
+      <section class="intro" id="intro">
+        <div class="intro-copy">
+          <p>
+            Bonjour, je m'appelle Marie et je suis resistante en Normandie.
+            Un eclaireur anglais a laisse des indices derriere lui pour decoder son message.
+          </p>
+          <p>
+            Avancez d'etape en etape, notez vos reponses, puis revenez ici quand vous voulez :
+            votre session reste enregistree sur cet appareil.
+          </p>
+        </div>
+        <div class="progress-panel" aria-live="polite">
+          <strong id="progressLabel">0 / 6</strong>
+          <span>etapes completees</span>
+          <div class="progress-track">
+            <div id="progressBar" class="progress-bar"></div>
+          </div>
+        </div>
+      </section>
+
+      <nav class="step-tabs" id="stepTabs" aria-label="Etapes du jeu"></nav>
+
+      <section class="step-view" id="stepView" aria-live="polite"></section>
+
+      <section class="message-panel">
+        <div>
+          <p class="section-label">Message de l'eclaireur</p>
+          <h2>Votre decodage final</h2>
+        </div>
+        <label for="finalMessage">Message obtenu</label>
+        <textarea id="finalMessage" rows="4" placeholder="Notez ici le message final une fois les indices reunis."></textarea>
+        <p class="save-state" id="saveState">Session sauvegardee automatiquement.</p>
+      </section>
+    </main>
+
+    <footer>
+      <span>Les donnees restent uniquement dans le navigateur utilise pour jouer.</span>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
