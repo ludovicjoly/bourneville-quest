@@ -13,6 +13,10 @@ const steps = [
       alt: "Cases en code morse a remplir pour le mot de 7 lettres",
       label: "Cases du support"
     },
+    morseBoxes: {
+      label: "Mot et codes morse",
+      count: 7
+    },
     tasks: [
       {
         label: "Mot de 7 lettres",
@@ -34,6 +38,10 @@ const steps = [
       src: "assets/eglise-grid.png",
       alt: "Grille mathematique de l'enigme du troisieme chiffre",
       label: "Enigme mathematique"
+    },
+    morseBoxes: {
+      label: "Lettre et code morse trouves dans la boite",
+      count: 1
     },
     tasks: [
       {
@@ -108,6 +116,10 @@ const steps = [
       alt: "Cases du puzzle de la foret",
       label: "Puzzle du support"
     },
+    morseBoxes: {
+      label: "Nom de code et codes morse",
+      count: 7
+    },
     tasks: [
       {
         label: "Nom de code",
@@ -130,6 +142,10 @@ const steps = [
       alt: "Deux cases en code morse pour l'arbre solitaire",
       label: "Cases du support"
     },
+    morseBoxes: {
+      label: "Deux lettres et leurs codes morse",
+      count: 2
+    },
     tasks: [
       {
         label: "Indice trouve",
@@ -149,6 +165,10 @@ const steps = [
       src: "assets/mairie-box.png",
       alt: "Case de reponse pour la mairie",
       label: "Case du support"
+    },
+    morseBoxes: {
+      label: "Derniere lettre et son code morse",
+      count: 1
     },
     tasks: [
       {
@@ -197,6 +217,10 @@ function getAnswerKey(stepIndex, taskIndex) {
   return `${steps[stepIndex].id}-${taskIndex}`;
 }
 
+function getMorseKey(stepIndex, boxIndex, part) {
+  return `${steps[stepIndex].id}-morse-${boxIndex}-${part}`;
+}
+
 function renderTabs() {
   stepTabs.innerHTML = "";
 
@@ -229,6 +253,9 @@ function renderStep() {
         </div>
       `
     : "";
+  const morseBoxesMarkup = step.morseBoxes
+    ? renderMorseBoxes(step, state.activeStep)
+    : "";
   const taskMarkup = step.tasks
     .map((task, taskIndex) => {
       const answerKey = getAnswerKey(state.activeStep, taskIndex);
@@ -251,6 +278,7 @@ function renderStep() {
         <p class="story">${step.story}</p>
         <div class="directions">${step.directions}</div>
         ${visualMarkup}
+        ${morseBoxesMarkup}
         <div class="task-list">${taskMarkup}</div>
         <div class="step-actions">
           <button class="primary-button" id="completeStep" type="button">Marquer l'etape faite</button>
@@ -270,6 +298,17 @@ function renderStep() {
       state.answers[event.target.dataset.answer] = event.target.value;
       persistState();
       updateProgress();
+    });
+  });
+
+  stepView.querySelectorAll("[data-morse]").forEach((input) => {
+    input.addEventListener("input", (event) => {
+      const value = event.target.dataset.part === "letter"
+        ? event.target.value.toUpperCase().slice(0, 1)
+        : event.target.value.replace(/[^.\-\s/]/g, "");
+      event.target.value = value;
+      state.answers[event.target.dataset.morse] = value;
+      persistState();
     });
   });
 
@@ -293,6 +332,50 @@ function renderStep() {
     persistState();
     render();
   });
+}
+
+function renderMorseBoxes(step, stepIndex) {
+  const boxes = Array.from({ length: step.morseBoxes.count }, (_, index) => {
+    const letterKey = getMorseKey(stepIndex, index, "letter");
+    const morseKey = getMorseKey(stepIndex, index, "morse");
+    const letter = state.answers[letterKey] || "";
+    const morse = state.answers[morseKey] || "";
+    return `
+      <div class="morse-box">
+        <label class="sr-only" for="${letterKey}">Lettre ${index + 1}</label>
+        <input
+          id="${letterKey}"
+          class="morse-letter"
+          data-morse="${letterKey}"
+          data-part="letter"
+          value="${escapeHtml(letter)}"
+          maxlength="1"
+          autocomplete="off"
+          aria-label="Lettre ${index + 1}"
+        >
+        <label class="sr-only" for="${morseKey}">Code morse ${index + 1}</label>
+        <input
+          id="${morseKey}"
+          class="morse-code"
+          data-morse="${morseKey}"
+          data-part="morse"
+          value="${escapeHtml(morse)}"
+          autocomplete="off"
+          inputmode="text"
+          aria-label="Code morse ${index + 1}"
+        >
+      </div>
+    `;
+  }).join("");
+
+  return `
+    <div class="morse-panel">
+      <span>${step.morseBoxes.label}</span>
+      <div class="morse-grid" style="--morse-count: ${step.morseBoxes.count}">
+        ${boxes}
+      </div>
+    </div>
+  `;
 }
 
 function updateProgress() {
