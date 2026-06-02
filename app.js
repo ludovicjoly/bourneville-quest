@@ -311,6 +311,10 @@ function renderStep() {
         <h2>${step.name}</h2>
         <p class="story">${step.story}</p>
         <div class="directions">${step.directions}</div>
+        <div class="clue-panel mobile-clue">
+          <strong>Indice</strong>
+          <p>${step.clue}</p>
+        </div>
         ${visualMarkup}
         ${worksheetMarkup}
         <div class="task-list">${taskMarkup}</div>
@@ -322,7 +326,7 @@ function renderStep() {
           <button class="secondary-button" id="nextStep" type="button">Etape suivante</button>
         </div>
       </article>
-      <aside class="clue-panel">
+      <aside class="clue-panel desktop-clue">
         <strong>Indice</strong>
         <p>${step.clue}</p>
       </aside>

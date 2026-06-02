@@ -601,6 +601,10 @@ button:focus-visible {
   color: #735117;
 }
 
+.mobile-clue {
+  display: none;
+}
+
 .message-panel,
 .final-step-panel {
   margin-top: 18px;
@@ -972,6 +976,15 @@ footer {
   .clue-panel {
     padding: 12px;
     border-radius: 6px;
+  }
+
+  .desktop-clue {
+    display: none;
+  }
+
+  .mobile-clue {
+    display: block;
+    margin: 12px 0;
   }
 
   .final-step-panel {
