@@ -484,6 +484,37 @@ main {
   margin-bottom: 10px;
 }
 
+.task-clue {
+  margin: 10px 0;
+  padding: 10px;
+  background: #fff8e9;
+  border: 1px solid #ead39c;
+  border-radius: 8px;
+}
+
+.task-clue strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #735117;
+}
+
+.task-clue p {
+  margin-bottom: 0;
+}
+
+.task-clue-card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.task-clue-button {
+  min-height: 38px;
+  padding: 7px 12px;
+}
+
 .task-image {
   display: block;
   width: min(100%, 440px);

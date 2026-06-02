@@ -34,7 +34,7 @@ const steps = [
       "Suivez le chemin en direction de l'ouest pendant 200m. Face à un choix de direction, observez la fumée pour qu'elle vous guide sur la bonne voie. Il semble qu'elle s'oriente vers le Sud. Continuez 140m.",
     story:
       "Vous allez maintenant devoir trouver 4 chiffres d'un code secret qui ouvriront une boîte à clés.",
-    clue: "1er chiffre : il y en a moins que 3. 4ème chiffre : les chiffres du code sont uniques.",
+    clue: "",
     morseBoxes: {
       label: "Lettre et code morse trouvés dans la boîte",
       count: 1
@@ -44,6 +44,7 @@ const steps = [
         label: "1er chiffre",
         prompt:
           "Trouver le vieux conifère présent dans le cimetière. Combien y a-t-il de lettre dans le nom de cet arbre ?",
+        clue: "Il y en a moins que 3.",
         box: { name: "code-0", mode: "digit", ariaLabel: "Premier chiffre du code" }
       },
       {
@@ -64,6 +65,7 @@ const steps = [
         label: "4ème chiffre",
         prompt:
           "Mince, l'éclaireur a entendu des bruits de pas qui approchent et il n'a pas eu le temps de laisser l'énigme du dernier chiffre. C'est à vous de faire preuve d'ingéniosité !",
+        clue: "Les chiffres du code sont uniques.",
         box: { name: "code-3", mode: "digit", ariaLabel: "Quatrième chiffre du code" }
       },
       {
@@ -286,11 +288,15 @@ function renderStep() {
       const promptMarkup = task.prompt
         ? `<p>${task.prompt}</p>`
         : "";
+      const clueMarkup = task.clue
+        ? renderTaskClue(step, task, taskIndex)
+        : "";
       return `
         <div class="task${task.box ? " task-with-box" : ""}">
           <div class="task-copy">
             <strong>${task.label}</strong>
             ${promptMarkup}
+            ${clueMarkup}
             ${imageMarkup}
             ${puzzleMarkup}
             ${inputMarkup}
@@ -322,7 +328,7 @@ function renderStep() {
         <h2>${step.name}</h2>
         <div class="directions">${step.directions}</div>
         <p class="story">${step.story}</p>
-        ${renderCluePanel(step, "mobile-clue")}
+        ${step.clue ? renderCluePanel(step, "mobile-clue") : ""}
         ${visualMarkup}
         ${worksheetBeforeTasks}
         <div class="task-list">${taskMarkup}</div>
@@ -336,7 +342,7 @@ function renderStep() {
         </div>
         <p class="completion-warning" id="completionWarning" hidden>Renseignez au moins une case de cette étape avant de la marquer comme faite.</p>
       </article>
-      ${renderCluePanel(step, "desktop-clue", true)}
+      ${step.clue ? renderCluePanel(step, "desktop-clue", true) : ""}
     </div>
   `;
 
@@ -468,6 +474,27 @@ function renderCluePanel(step, className, isAside = false) {
       <p>À ouvrir seulement si vous êtes bloqués.</p>
       <button class="secondary-button clue-button" type="button" data-reveal-clue="${step.id}">Révéler l'indice</button>
     </${tag}>
+  `;
+}
+
+function renderTaskClue(step, task, taskIndex) {
+  const clueId = `${step.id}-task-${taskIndex}`;
+  const revealed = Boolean(state.revealedClues[clueId]);
+
+  if (revealed) {
+    return `
+      <div class="task-clue">
+        <strong>Indice révélé</strong>
+        <p>${task.clue}</p>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="task-clue task-clue-card">
+      <strong>Indice scellé</strong>
+      <button class="secondary-button task-clue-button" type="button" data-reveal-clue="${clueId}">Révéler l'indice</button>
+    </div>
   `;
 }
 
