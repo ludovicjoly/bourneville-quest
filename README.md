@@ -26,6 +26,6 @@ Le site sera publié à une adresse du type :
 
 Le workflow `Archive GitHub traffic` récupère chaque soir les statistiques GitHub Traffic des 14 derniers jours et les fusionne dans `data/github-traffic-history.json`.
 
-Le fichier conserve les vues et visiteurs uniques par jour au-delà de la limite de 14 jours de GitHub. Si le workflow échoue avec une erreur d'autorisation, créer un secret GitHub `TRAFFIC_TOKEN` avec un token personnel ayant accès en lecture aux statistiques du dépôt.
+Le fichier conserve les vues et visiteurs uniques par jour au-delà de la limite de 14 jours de GitHub. GitHub n'autorise pas le token automatique des Actions à lire ces statistiques : créer un secret GitHub `TRAFFIC_TOKEN` avec un token personnel finement limité au dépôt et la permission `Administration: read`.
 
 Une page de lecture simple est disponible à l'adresse `/traffic.html`.
