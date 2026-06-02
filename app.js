@@ -347,6 +347,7 @@ function renderStep() {
           ${isLastStep ? "" : `<button class="secondary-button" id="nextStep" type="button">Étape suivante</button>`}
         </div>
         <p class="completion-warning" id="completionWarning" hidden>Renseignez au moins une case de cette étape avant de la marquer comme faite.</p>
+        <p class="save-state" id="saveState">Session sauvegardée automatiquement.</p>
       </article>
       ${step.clue ? renderCluePanel(step, "desktop-clue", true) : ""}
     </div>
@@ -660,7 +661,6 @@ function renderScoutMessage() {
     <div class="scout-message">
       <h3>Message de l'éclaireur</h3>
       ${rows}
-      <p class="save-state" id="saveState">Session sauvegardée automatiquement.</p>
     </div>
   `;
 }
