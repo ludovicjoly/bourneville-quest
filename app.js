@@ -198,7 +198,7 @@ const progressLabel = document.querySelector("#progressLabel");
 const progressBar = document.querySelector("#progressBar");
 const resetGame = document.querySelector("#resetGame");
 const morseKeypad = document.querySelector("#morseKeypad");
-let activeMorseInput = null;
+let activeMorseControl = null;
 
 function loadState() {
   try {
@@ -358,6 +358,12 @@ function renderStep() {
     });
   });
 
+  stepView.querySelectorAll("[data-morse-trigger]").forEach((button) => {
+    button.addEventListener("click", (event) => {
+      showMorseKeypad(event.currentTarget);
+    });
+  });
+
   stepView.querySelectorAll("[data-box]").forEach((input) => {
     input.addEventListener("input", (event) => {
       const mode = event.target.dataset.mode;
@@ -406,7 +412,11 @@ function renderStep() {
 
 function stepHasEditableInputFilled() {
   return Array.from(stepView.querySelectorAll("[data-answer], [data-morse], [data-box]"))
-    .some((input) => !input.readOnly && !input.disabled && input.value.trim() !== "");
+    .some((control) => !control.readOnly && !control.disabled && getControlValue(control).trim() !== "");
+}
+
+function getControlValue(control) {
+  return control.dataset.morseTrigger ? control.dataset.value || "" : control.value || "";
 }
 
 function showCompletionWarning() {
@@ -676,9 +686,10 @@ function renderInlineMorseBox(stepIndex, name, prefill, ariaLabel) {
   const morse = Object.prototype.hasOwnProperty.call(prefill, "morse")
     ? prefill.morse
     : normalizeMorseValue(getStoredValue(morseKey, ""));
-  const morseLocked = Object.prototype.hasOwnProperty.call(prefill, "morse")
-    ? 'readonly data-prefilled="true"'
-    : "";
+  const hasPrefilledMorse = Object.prototype.hasOwnProperty.call(prefill, "morse");
+  const morseMarkup = hasPrefilledMorse
+    ? renderLockedMorseInput(morse, `${ariaLabel} morse`)
+    : renderEditableMorseButton(morseKey, morse, `${ariaLabel} morse`);
 
   return `
     <div class="morse-box inline-morse-box" aria-label="${ariaLabel}">
@@ -693,18 +704,7 @@ function renderInlineMorseBox(stepIndex, name, prefill, ariaLabel) {
         placeholder="A"
         aria-label="${ariaLabel} lettre"
       >
-      <input
-        class="morse-code"
-        data-morse="${morseKey}"
-        data-part="morse"
-        value="${escapeHtml(morse)}"
-        autocomplete="off"
-        inputmode="none"
-        pattern="[._]*"
-        placeholder="._"
-        ${morseLocked}
-        aria-label="${ariaLabel} morse"
-      >
+      ${morseMarkup}
     </div>
   `;
 }
@@ -751,7 +751,9 @@ function renderMorseBoxes(step, stepIndex) {
     const letter = hasPrefilledLetter ? prefill.letter : getStoredValue(letterKey, "");
     const morse = hasPrefilledMorse ? prefill.morse : normalizeMorseValue(getStoredValue(morseKey, ""));
     const letterLocked = hasPrefilledLetter ? 'readonly data-prefilled="true"' : "";
-    const morseLocked = hasPrefilledMorse ? 'readonly data-prefilled="true"' : "";
+    const morseMarkup = hasPrefilledMorse
+      ? renderLockedMorseInput(morse, `Code morse ${index + 1}`, morseKey)
+      : renderEditableMorseButton(morseKey, morse, `Code morse ${index + 1}`);
     return `
       <div class="morse-box">
         <label class="sr-only" for="${letterKey}">Lettre ${index + 1}</label>
@@ -769,19 +771,7 @@ function renderMorseBoxes(step, stepIndex) {
           aria-label="Lettre ${index + 1}"
         >
         <label class="sr-only" for="${morseKey}">Code morse ${index + 1}</label>
-        <input
-          id="${morseKey}"
-          class="morse-code"
-          data-morse="${morseKey}"
-          data-part="morse"
-          value="${escapeHtml(morse)}"
-          autocomplete="off"
-          inputmode="none"
-          pattern="[._]*"
-          placeholder="._"
-          ${morseLocked}
-          aria-label="Code morse ${index + 1}"
-        >
+        ${morseMarkup}
       </div>
     `;
   }).join("");
@@ -793,6 +783,34 @@ function renderMorseBoxes(step, stepIndex) {
         ${boxes}
       </div>
     </div>
+  `;
+}
+
+function renderLockedMorseInput(morse, ariaLabel, id = "") {
+  return `
+    <input
+      ${id ? `id="${id}"` : ""}
+      class="morse-code"
+      value="${escapeHtml(morse)}"
+      readonly
+      data-prefilled="true"
+      aria-label="${ariaLabel}"
+    >
+  `;
+}
+
+function renderEditableMorseButton(key, morse, ariaLabel) {
+  return `
+    <button
+      id="${key}"
+      class="morse-code morse-code-button"
+      type="button"
+      data-morse="${key}"
+      data-part="morse"
+      data-morse-trigger="true"
+      data-value="${escapeHtml(morse)}"
+      aria-label="${ariaLabel}"
+    >${escapeHtml(morse || "._")}</button>
   `;
 }
 
@@ -811,21 +829,10 @@ function setupMorseKeypad() {
     return;
   }
 
-  document.addEventListener("focusin", (event) => {
-    if (isEditableMorseInput(event.target)) {
-      showMorseKeypad(event.target);
-      return;
-    }
-
-    if (!morseKeypad.contains(event.target)) {
-      hideMorseKeypad();
-    }
-  });
-
   document.addEventListener("pointerdown", (event) => {
     if (
-      activeMorseInput
-      && !activeMorseInput.contains(event.target)
+      activeMorseControl
+      && !activeMorseControl.contains(event.target)
       && !morseKeypad.contains(event.target)
     ) {
       hideMorseKeypad();
@@ -843,21 +850,28 @@ function setupMorseKeypad() {
   });
 }
 
-function isEditableMorseInput(element) {
+function isEditableMorseControl(element) {
   return Boolean(
     element
-      && element.matches?.('input[data-part="morse"][data-morse]:not([readonly])')
+      && element.matches?.('[data-morse-trigger][data-morse]:not([disabled])')
   );
 }
 
-function showMorseKeypad(input) {
-  activeMorseInput = input;
+function showMorseKeypad(control) {
+  if (activeMorseControl) {
+    activeMorseControl.classList.remove("morse-code-active");
+  }
+  activeMorseControl = control;
+  activeMorseControl.classList.add("morse-code-active");
   morseKeypad.hidden = false;
   document.body.classList.add("morse-keypad-open");
 }
 
 function hideMorseKeypad() {
-  activeMorseInput = null;
+  if (activeMorseControl) {
+    activeMorseControl.classList.remove("morse-code-active");
+  }
+  activeMorseControl = null;
   if (morseKeypad) {
     morseKeypad.hidden = true;
   }
@@ -865,28 +879,23 @@ function hideMorseKeypad() {
 }
 
 function applyMorseKey(key) {
-  if (!isEditableMorseInput(activeMorseInput)) {
+  if (!isEditableMorseControl(activeMorseControl)) {
     hideMorseKeypad();
     return;
   }
 
-  const input = activeMorseInput;
-  const start = input.selectionStart ?? input.value.length;
-  const end = input.selectionEnd ?? input.value.length;
-  const before = input.value.slice(0, start);
-  const after = input.value.slice(end);
-  const hasSelection = end > start;
+  const control = activeMorseControl;
+  const currentValue = control.dataset.value || "";
   const nextValue = key === "delete"
-    ? (hasSelection ? before + after : before.slice(0, -1) + after)
-    : before + key + after;
-  const nextCursor = key === "delete"
-    ? (hasSelection ? start : Math.max(0, start - 1))
-    : start + key.length;
+    ? currentValue.slice(0, -1)
+    : currentValue + key;
 
-  input.value = normalizeMorseValue(nextValue);
-  input.focus({ preventScroll: true });
-  input.setSelectionRange(nextCursor, nextCursor);
-  input.dispatchEvent(new Event("input", { bubbles: true }));
+  const value = normalizeMorseValue(nextValue);
+  control.dataset.value = value;
+  control.textContent = value || "._";
+  state.answers[control.dataset.morse] = value;
+  persistState();
+  clearCompletionWarning();
 }
 
 function updateProgress() {

@@ -339,7 +339,8 @@ main {
   border-radius: 4px;
 }
 
-.morse-box input {
+.morse-box input,
+.morse-box button {
   width: 100%;
   min-height: 0;
   padding: 4px;
@@ -348,6 +349,15 @@ main {
   background: transparent;
   border: 0;
   border-radius: 0;
+}
+
+.morse-box button {
+  appearance: none;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
 }
 
 .morse-box input::placeholder {
@@ -371,6 +381,19 @@ main {
   font-weight: 800;
   letter-spacing: 1px;
   border-top: 2px solid #2a2f34 !important;
+}
+
+.morse-code-button {
+  color: var(--ink);
+}
+
+.morse-code-button[data-value=""] {
+  color: #aab3bd;
+}
+
+.morse-code-active {
+  background: #fff2c9 !important;
+  box-shadow: inset 0 0 0 2px #c8952d;
 }
 
 .inline-morse-box {
