@@ -1229,6 +1229,12 @@ body.morse-keypad-open {
     font-size: 1.18rem;
   }
 
+  .answer-box-compact {
+    width: 44px;
+    height: 44px;
+    font-size: 1.05rem;
+  }
+
   .propatria-sheet {
     padding: 10px;
     gap: 10px;
