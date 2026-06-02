@@ -119,6 +119,35 @@ main {
   margin-bottom: 0;
 }
 
+.intro-actions {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.paper-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  width: fit-content;
+  padding: 9px 14px;
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  background: var(--navy);
+  border-radius: 8px;
+}
+
+.save-tip {
+  margin: 0;
+  padding: 10px 12px;
+  color: #17324d;
+  background: #edf4f8;
+  border-left: 4px solid var(--blue);
+  border-radius: 6px;
+}
+
 .intro-media {
   display: grid;
   gap: 14px;
@@ -797,6 +826,10 @@ footer {
 
   .intro-copy p {
     margin-bottom: 10px;
+  }
+
+  .paper-link {
+    width: 100%;
   }
 
   .intro-media {

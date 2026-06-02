@@ -4,14 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#17324d">
-    <title>Operation Chocolate Village - Jeu de piste</title>
+    <title>Opération Chocolate Village - Jeu de piste</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <header class="app-header">
       <div>
-        <p class="kicker">Bourneville - 26 aout 1944</p>
-        <h1>Operation Chocolate Village</h1>
+        <p class="kicker">Bourneville - 26 août 1944</p>
+        <h1>Opération Chocolate Village</h1>
       </div>
       <button class="icon-button" id="resetGame" type="button" title="Recommencer">
         <span aria-hidden="true">R</span>
@@ -22,30 +22,34 @@
     <main>
       <section class="intro" id="intro">
         <div class="intro-copy">
-          <img class="intro-banner" src="assets/operation-banner.png" alt="Document de mission Operation Chocolate Village">
+          <img class="intro-banner" src="assets/operation-banner.png" alt="Document de mission Opération Chocolate Village">
           <p>
             Bonjour, je m'appelle <strong>Marie</strong> et je suis r&eacute;sistante en Normandie.
-            Depuis le 13 aout 1944, les bombardements se rapprochent progressivement de Bourneville.
+            Depuis le 13 août 1944, les bombardements se rapprochent progressivement de Bourneville.
           </p>
           <p>
-            Cela fait maintenant une semaine que les autres habitants et moi-meme avons recu
+            Cela fait maintenant une semaine que les autres habitants et moi-même avons reçu
             l'ordre de quitter nos maisons du centre bourg pour nous r&eacute;fugier dans les fermes environnantes.
           </p>
           <p>
-            Aujourd'hui, le 26 aout 1944, un &eacute;claireur anglais a r&eacute;ussi a s'infiltrer
+            Aujourd'hui, le 26 août 1944, un &eacute;claireur anglais a r&eacute;ussi à s'infiltrer
             dans Bourneville pour nous d&eacute;livrer un message et pr&eacute;parer une mission secrete.
             Nom de code : <strong>CHOCOLATE VILLAGE</strong>.
           </p>
           <p>
-            Il a laiss&eacute; des indices derriere lui pour d&eacute;coder son message.
-            J'ai besoin de vous des maintenant, un &eacute;v&egrave;nement majeur se pr&eacute;pare...
+            Il a laiss&eacute; des indices derrière lui pour d&eacute;coder son message.
+            J'ai besoin de vous dès maintenant, un &eacute;v&egrave;nement majeur se pr&eacute;pare...
           </p>
+          <div class="intro-actions">
+            <a class="paper-link" href="assets/support-de-jeu.pdf">Ouvrir la version papier (PDF)</a>
+            <p class="save-tip">Pendant le jeu, gardez cette page ouverte ou ajoutez-la aux favoris de votre téléphone afin de ne pas perdre le fil du parcours.</p>
+          </div>
         </div>
         <div class="intro-media">
           <img class="portrait" src="assets/marie-portrait.png" alt="Portrait de Marie">
           <div class="progress-panel" aria-live="polite">
-            <strong id="progressLabel">0 / 6</strong>
-            <span>etapes completees</span>
+            <strong id="progressLabel">0 / 7</strong>
+            <span>étapes complétées</span>
             <div class="progress-track">
               <div id="progressBar" class="progress-bar"></div>
             </div>
@@ -56,20 +60,20 @@
       <section class="map-panel">
         <div>
           <p class="section-label">Plan du parcours</p>
-          <h2>Voici le plan et les enigmes a resoudre</h2>
-          <p>Depuis la maison des metiers, remontez de 170m en direction du chemin du manoir.</p>
+          <h2>Voici le plan et les énigmes à résoudre</h2>
+          <p>Depuis la maison des métiers, remontez de 170m en direction du chemin du manoir.</p>
         </div>
-        <img src="assets/route-map.png" alt="Plan dessine du jeu de piste dans Bourneville">
+        <img src="assets/route-map.png" alt="Plan dessiné du jeu de piste dans Bourneville">
       </section>
 
-      <nav class="step-tabs" id="stepTabs" aria-label="Etapes du jeu"></nav>
+      <nav class="step-tabs" id="stepTabs" aria-label="Étapes du jeu"></nav>
 
       <section class="step-view" id="stepView" aria-live="polite"></section>
 
     </main>
 
     <footer>
-      <span>Les donnees restent uniquement dans le navigateur utilise pour jouer.</span>
+      <span>Les données restent uniquement dans le navigateur utilisé pour jouer.</span>
     </footer>
 
     <script src="app.js"></script>
