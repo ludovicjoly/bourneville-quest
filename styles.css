@@ -859,17 +859,11 @@ footer {
   white-space: nowrap;
 }
 
-@media (min-width: 781px) {
-  .morse-keypad {
-    display: none;
-  }
+body.morse-keypad-open {
+  padding-bottom: 78px;
 }
 
 @media (max-width: 780px) {
-  body.morse-keypad-open {
-    padding-bottom: 78px;
-  }
-
   .intro,
   .map-panel,
   .step-layout {
