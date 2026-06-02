@@ -256,6 +256,8 @@ function renderStep() {
   hideMorseKeypad();
 
   const step = steps[state.activeStep];
+  const isFirstStep = state.activeStep === 0;
+  const isLastStep = state.activeStep === steps.length - 1;
   const visualMarkup = step.image
     ? `
         <div class="visual-panel">
@@ -324,8 +326,8 @@ function renderStep() {
         ${finalMarkup}
         <div class="step-actions">
           <button class="primary-button" id="completeStep" type="button">Marquer l'étape faite</button>
-          <button class="secondary-button" id="previousStep" type="button">Étape précédente</button>
-          <button class="secondary-button" id="nextStep" type="button">Étape suivante</button>
+          ${isFirstStep ? "" : `<button class="secondary-button" id="previousStep" type="button">Étape précédente</button>`}
+          ${isLastStep ? "" : `<button class="secondary-button" id="nextStep" type="button">Étape suivante</button>`}
         </div>
         <p class="completion-warning" id="completionWarning" hidden>Renseignez au moins une case de cette étape avant de la marquer comme faite.</p>
       </article>
@@ -397,17 +399,23 @@ function renderStep() {
     render();
   });
 
-  document.querySelector("#previousStep").addEventListener("click", () => {
-    state.activeStep = Math.max(0, state.activeStep - 1);
-    persistState();
-    render();
-  });
+  const previousStep = document.querySelector("#previousStep");
+  if (previousStep) {
+    previousStep.addEventListener("click", () => {
+      state.activeStep = Math.max(0, state.activeStep - 1);
+      persistState();
+      render();
+    });
+  }
 
-  document.querySelector("#nextStep").addEventListener("click", () => {
-    state.activeStep = Math.min(steps.length - 1, state.activeStep + 1);
-    persistState();
-    render();
-  });
+  const nextStep = document.querySelector("#nextStep");
+  if (nextStep) {
+    nextStep.addEventListener("click", () => {
+      state.activeStep = Math.min(steps.length - 1, state.activeStep + 1);
+      persistState();
+      render();
+    });
+  }
 }
 
 function stepHasEditableInputFilled() {
