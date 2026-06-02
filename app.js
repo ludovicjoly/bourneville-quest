@@ -71,7 +71,9 @@ const steps = [
       {
         label: "Lettre et code morse",
         prompt:
-          "Notez la lettre et son code morse que vous avez trouvé dans la boîte. Refermez bien la boîte et n'oubliez pas de brouiller le code secret !!!"
+          "Notez la lettre et son code morse que vous avez trouvé dans la boîte.",
+        alert:
+          "Refermez bien la boîte et n'oubliez pas de brouiller le code secret !!!"
       }
     ]
   },
@@ -291,11 +293,15 @@ function renderStep() {
       const clueMarkup = task.clue
         ? renderTaskClue(step, task, taskIndex)
         : "";
+      const alertMarkup = task.alert
+        ? `<p class="task-alert">${task.alert}</p>`
+        : "";
       return `
         <div class="task${task.box ? " task-with-box" : ""}">
           <div class="task-copy">
             <strong>${task.label}</strong>
             ${promptMarkup}
+            ${alertMarkup}
             ${clueMarkup}
             ${imageMarkup}
             ${puzzleMarkup}

@@ -484,6 +484,16 @@ main {
   margin-bottom: 10px;
 }
 
+.task-alert {
+  display: inline-block;
+  padding: 8px 10px;
+  color: #7a1f16;
+  background: #fff1ee;
+  border: 1px solid #f0b8ae;
+  border-radius: 8px;
+  font-weight: 900;
+}
+
 .task-clue {
   margin: 10px 0;
   padding: 10px;
