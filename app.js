@@ -6,7 +6,7 @@ const steps = [
     name: "Le Manoir",
     directions: "Depuis la maison des métiers, remontez de 170m en direction du chemin du manoir.",
     story:
-      "Cherchez un labyrinthe à l'entrée du chemin et trouvez le parcours qui mène jusqu'à la croix de guerre. Recopiez les lettres dans l'ordre où vous les rencontrez. Vous trouverez ainsi un mot de 7 lettres à retranscrire dans les cases ci-dessous pour traduire le code morse du message laissé par l'éclaireur anglais.",
+      "Chercher un labyrinthe à l'entrée du chemin et trouvez le parcours qui mène jusqu'à la croix de guerre. Recopiez les lettres dans l'ordre où vous les rencontrez. Vous trouverez ainsi un mot de 7 lettres à retranscrire dans les cases ci-dessous pour traduire le code morse du message laissé par l'éclaireur anglais.",
     clue: "Son travail est essentiel à la pollinisation.",
     morseBoxes: {
       label: "Mot et codes morse",
@@ -33,8 +33,8 @@ const steps = [
     directions:
       "Suivez le chemin en direction de l'ouest pendant 200m. Face à un choix de direction, observez la fumée pour qu'elle vous guide sur la bonne voie. Il semble qu'elle s'oriente vers le Sud. Continuez 140m.",
     story:
-      "Vous devez trouver les 4 chiffres d'un code secret qui ouvrira une boîte à clés.",
-    clue: "Les chiffres du code sont uniques.",
+      "Vous allez maintenant devoir trouver 4 chiffres d'un code secret qui ouvriront une boîte à clés.",
+    clue: "1er chiffre : il y en a moins que 3. 4ème chiffre : les chiffres du code sont uniques.",
     morseBoxes: {
       label: "Lettre et code morse trouvés dans la boîte",
       count: 1
@@ -43,19 +43,19 @@ const steps = [
       {
         label: "1er chiffre",
         prompt:
-          "Trouvez le vieux conifère présent dans le cimetière. Combien y a-t-il de lettres dans le nom de cet arbre ?",
+          "Trouver le vieux conifère présent dans le cimetière. Combien y a-t-il de lettre dans le nom de cet arbre ?",
         box: { name: "code-0", mode: "digit", ariaLabel: "Premier chiffre du code" }
       },
       {
         label: "2ème chiffre",
         prompt:
-          "Observez le sommet de l'église. Combien y a-t-il de lettres dans le nom de l'oiseau qui indique le sens du vent ?",
+          "Observer le sommet de l'église. Combien y a-t-il de lettre dans le nom de l'oiseau qui indique le sens du vent ?",
         box: { name: "code-1", mode: "digit", ariaLabel: "Deuxième chiffre du code" }
       },
       {
         label: "3ème chiffre",
         prompt:
-          "Résolvez l'énigme mathématique laissée par l'éclaireur anglais.",
+          "L'éclaireur anglais est un spécialiste des codes mathématiques. Il sait pouvoir compter sur vous pour résoudre cette énigme.",
         mathPuzzle: {
           resultName: "code-2"
         }
@@ -63,13 +63,13 @@ const steps = [
       {
         label: "4ème chiffre",
         prompt:
-          "L'éclaireur n'a pas eu le temps de laisser l'énigme. Faites preuve d'ingéniosité.",
+          "Mince, l'éclaireur a entendu des bruits de pas qui approchent et il n'a pas eu le temps de laisser l'énigme du dernier chiffre. C'est à vous de faire preuve d'ingéniosité !",
         box: { name: "code-3", mode: "digit", ariaLabel: "Quatrième chiffre du code" }
       },
       {
         label: "Lettre et code morse",
         prompt:
-          "Notez la lettre et son code morse trouvés dans la boîte. Refermez la boîte et brouillez le code."
+          "Notez la lettre et son code morse que vous avez trouvé dans la boîte. Refermez bien la boîte et n'oubliez pas de brouiller le code secret !!!"
       }
     ]
   },
@@ -79,7 +79,7 @@ const steps = [
     directions:
       "Partez en direction du carrefour. Depuis ce point stratégique vous pouvez observer plusieurs directions. La bonne vous guide vers un monument commémoratif à portée de vue.",
     story:
-      "Faites le tour du monument aux morts pour compter le nombre de noms de familles inscrits dans la pierre.",
+      "Faites le tour du monument aux morts pour compter le nombre de noms de familles inscrits dans la pierre. Additionnez les chiffres du nombre trouvé.",
     clue:
       "Additionnez les chiffres du nombre trouvé, puis cherchez la lettre correspondante dans l'alphabet.",
     worksheet: {
@@ -89,11 +89,11 @@ const steps = [
     tasks: [
       {
         label: "Nombre de noms",
-        prompt: "Comptez le nombre de noms de familles inscrits dans la pierre, puis additionnez les chiffres du nombre trouvé."
+        prompt: "Comptez le nombre de noms de familles inscrits dans la pierre."
       },
       {
         label: "Lettre obtenue",
-        prompt: "Reportez le résultat et la lettre correspondante dans les cases."
+        prompt: "À quelle lettre de l'alphabet correspond ce chiffre ?"
       }
     ]
   },
@@ -103,7 +103,7 @@ const steps = [
     directions:
       "Vous êtes trop à découvert près des grands axes. Il vous faut emprunter les chemins pour plus de discrétion. Rejoignez la place non loin de vous et continuez par la sente verdoyante.",
     story:
-      "L'éclaireur anglais vous a laissé un puzzle quelque part sous les arbres.",
+      "L'éclaireur anglais vous a laissé un puzzle quelque part sous des arbres. Mettez-le dans le bon ordre pour découvrir le nom de code de l'opération de grande ampleur qui se déroule en Normandie.",
     clue: "N'oubliez pas ce que vous connaissez déjà.",
     morseBoxes: {
       label: "Nom de code et codes morse",
@@ -120,9 +120,7 @@ const steps = [
     },
     tasks: [
       {
-        label: "Nom de code",
-        prompt:
-          "Mettez le puzzle dans le bon ordre pour découvrir le nom de code de l'opération de grande ampleur en Normandie."
+        label: "Nom de code"
       }
     ]
   },
@@ -132,8 +130,8 @@ const steps = [
     directions:
       "Continuez sur la sente. En sortie, tournez à gauche vers le Nord. 60m plus loin, tournez à droite vers l'Est et marchez 400m. La fumée vous montre toujours la voie quand vous hésitez...",
     story:
-      "Vous pourrez probablement y découvrir l'avant-dernier indice laissé par l'éclaireur.",
-    clue: "Quelles sont les deux lettres qui abrègent le mot Docteur ?",
+      "Vous êtes de nouveau dans une zone à découvert ! En passant au pied de l'arbre solitaire vous serez plus discret et vous pourrez probablement y découvrir l'avant dernier indice laissé.",
+    clue: "Quelles sont les deux lettres qui abrège le mot Docteur ?",
     morseBoxes: {
       label: "Deux lettres et leurs codes morse",
       count: 2,
@@ -144,8 +142,7 @@ const steps = [
     },
     tasks: [
       {
-        label: "Indice trouvé",
-        prompt: "Notez les deux lettres obtenues."
+        label: "Deux lettres"
       }
     ]
   },
@@ -154,7 +151,7 @@ const steps = [
     name: "La Mairie",
     directions: "Remontez en direction du centre bourg et trouvez la Mairie.",
     story:
-      "Vous êtes arrivé à la dernière étape pour décoder le message de l'éclaireur.",
+      "Vous êtes arrivé à la dernière étape pour décoder le message de l'éclaireur ! Devant la Mairie, regardez autour de vous, un indice vous attend.",
     clue: "Les informations sont souvent bien affichées aux yeux de tous.",
     morseBoxes: {
       label: "Dernière lettre et son code morse",
@@ -162,8 +159,7 @@ const steps = [
     },
     tasks: [
       {
-        label: "Dernier indice",
-        prompt: "Devant la Mairie, regardez autour de vous et notez l'indice trouvé."
+        label: "Dernière lettre"
       }
     ]
   },
