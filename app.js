@@ -6,7 +6,7 @@ const steps = [
     name: "Le Manoir",
     directions: "Depuis la maison des métiers, remontez de 170m en direction du chemin du manoir.",
     story:
-      "Cherchez un labyrinthe à l'entrée du chemin et trouvez le parcours qui mène jusqu'à la croix de guerre.",
+      "Cherchez un labyrinthe à l'entrée du chemin et trouvez le parcours qui mène jusqu'à la croix de guerre. Recopiez les lettres dans l'ordre où vous les rencontrez. Vous trouverez ainsi un mot de 7 lettres à retranscrire dans les cases ci-dessous pour traduire le code morse du message laissé par l'éclaireur anglais.",
     clue: "Son travail est essentiel à la pollinisation.",
     morseBoxes: {
       label: "Mot et codes morse",
@@ -23,9 +23,7 @@ const steps = [
     },
     tasks: [
       {
-        label: "Mot de 7 lettres",
-        prompt:
-          "Recopiez les lettres dans l'ordre où vous les rencontrez. Ce mot servira à traduire le code morse du message."
+        label: "Mot de 7 lettres"
       }
     ]
   },
@@ -288,11 +286,14 @@ function renderStep() {
       const boxMarkup = task.box
         ? renderSimpleBox(state.activeStep, task.box.name, "", task.box.mode, task.box.ariaLabel)
         : "";
+      const promptMarkup = task.prompt
+        ? `<p>${task.prompt}</p>`
+        : "";
       return `
         <div class="task${task.box ? " task-with-box" : ""}">
           <div class="task-copy">
             <strong>${task.label}</strong>
-            <p>${task.prompt}</p>
+            ${promptMarkup}
             ${imageMarkup}
             ${puzzleMarkup}
             ${inputMarkup}
@@ -316,8 +317,8 @@ function renderStep() {
       <article>
         <p class="section-label">Étape ${state.activeStep + 1} / ${steps.length}</p>
         <h2>${step.name}</h2>
-        <p class="story">${step.story}</p>
         <div class="directions">${step.directions}</div>
+        <p class="story">${step.story}</p>
         ${renderCluePanel(step, "mobile-clue")}
         ${visualMarkup}
         ${worksheetMarkup}

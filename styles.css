@@ -285,11 +285,12 @@ main {
 }
 
 .story {
-  margin-bottom: 18px;
+  margin: 14px 0 18px;
   color: var(--muted);
 }
 
 .directions {
+  margin-top: 4px;
   padding: 14px 16px;
   background: #edf4f8;
   border-left: 4px solid var(--blue);
