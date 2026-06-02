@@ -323,6 +323,7 @@ function renderStep() {
           <button class="secondary-button" id="previousStep" type="button">Étape précédente</button>
           <button class="secondary-button" id="nextStep" type="button">Étape suivante</button>
         </div>
+        <p class="completion-warning" id="completionWarning" hidden>Renseignez au moins une case de cette étape avant de la marquer comme faite.</p>
       </article>
       ${renderCluePanel(step, "desktop-clue", true)}
     </div>
@@ -333,6 +334,7 @@ function renderStep() {
       state.answers[event.target.dataset.answer] = event.target.value;
       persistState();
       updateProgress();
+      clearCompletionWarning();
     });
   });
 
@@ -348,6 +350,7 @@ function renderStep() {
       event.target.value = value;
       state.answers[event.target.dataset.morse] = value;
       persistState();
+      clearCompletionWarning();
     });
   });
 
@@ -358,6 +361,7 @@ function renderStep() {
       event.target.value = value;
       state.answers[event.target.dataset.box] = value;
       persistState();
+      clearCompletionWarning();
     });
   });
 
@@ -370,6 +374,11 @@ function renderStep() {
   });
 
   document.querySelector("#completeStep").addEventListener("click", () => {
+    if (!stepHasEditableInputFilled()) {
+      showCompletionWarning();
+      return;
+    }
+
     state.completed[step.id] = true;
     if (state.activeStep < steps.length - 1) {
       state.activeStep += 1;
@@ -389,6 +398,28 @@ function renderStep() {
     persistState();
     render();
   });
+}
+
+function stepHasEditableInputFilled() {
+  return Array.from(stepView.querySelectorAll("[data-answer], [data-morse], [data-box]"))
+    .some((input) => !input.readOnly && !input.disabled && input.value.trim() !== "");
+}
+
+function showCompletionWarning() {
+  const warning = document.querySelector("#completionWarning");
+  if (!warning) {
+    return;
+  }
+
+  warning.hidden = false;
+  warning.scrollIntoView({ block: "nearest", behavior: "smooth" });
+}
+
+function clearCompletionWarning() {
+  const warning = document.querySelector("#completionWarning");
+  if (warning && stepHasEditableInputFilled()) {
+    warning.hidden = true;
+  }
 }
 
 function renderCluePanel(step, className, isAside = false) {
