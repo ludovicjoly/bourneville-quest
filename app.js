@@ -839,6 +839,18 @@ function setupMorseKeypad() {
     }
   });
 
+  window.addEventListener("resize", () => {
+    if (activeMorseControl) {
+      positionMorseKeypad(activeMorseControl);
+    }
+  });
+
+  window.addEventListener("scroll", () => {
+    if (activeMorseControl && !isMobileMorseLayout()) {
+      positionMorseKeypad(activeMorseControl);
+    }
+  }, { passive: true });
+
   morseKeypad.querySelectorAll("[data-morse-key]").forEach((button) => {
     button.addEventListener("pointerdown", (event) => {
       event.preventDefault();
@@ -864,6 +876,7 @@ function showMorseKeypad(control) {
   activeMorseControl = control;
   activeMorseControl.classList.add("morse-code-active");
   morseKeypad.hidden = false;
+  positionMorseKeypad(control);
   document.body.classList.add("morse-keypad-open");
 }
 
@@ -874,8 +887,43 @@ function hideMorseKeypad() {
   activeMorseControl = null;
   if (morseKeypad) {
     morseKeypad.hidden = true;
+    morseKeypad.style.removeProperty("--keypad-left");
+    morseKeypad.style.removeProperty("--keypad-top");
   }
   document.body.classList.remove("morse-keypad-open");
+}
+
+function positionMorseKeypad(control) {
+  if (!morseKeypad) {
+    return;
+  }
+
+  if (isMobileMorseLayout()) {
+    morseKeypad.style.removeProperty("--keypad-left");
+    morseKeypad.style.removeProperty("--keypad-top");
+    return;
+  }
+
+  const controlRect = control.getBoundingClientRect();
+  const keypadRect = morseKeypad.getBoundingClientRect();
+  const margin = 12;
+  const preferredLeft = controlRect.left + (controlRect.width / 2) - (keypadRect.width / 2);
+  const left = Math.min(
+    window.innerWidth - keypadRect.width - margin,
+    Math.max(margin, preferredLeft)
+  );
+  const preferredTop = controlRect.bottom + 8;
+  const top = Math.min(
+    window.innerHeight - keypadRect.height - margin,
+    Math.max(margin, preferredTop)
+  );
+
+  morseKeypad.style.setProperty("--keypad-left", `${left}px`);
+  morseKeypad.style.setProperty("--keypad-top", `${top}px`);
+}
+
+function isMobileMorseLayout() {
+  return window.matchMedia("(max-width: 780px)").matches;
 }
 
 function applyMorseKey(key) {

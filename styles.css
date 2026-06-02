@@ -807,17 +807,20 @@ button:focus-visible {
 
 .morse-keypad {
   position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  left: var(--keypad-left, 12px);
+  top: var(--keypad-top, auto);
+  bottom: auto;
   z-index: 20;
   display: flex;
   gap: 8px;
   justify-content: center;
-  padding: 10px max(12px, env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  width: max-content;
+  max-width: calc(100vw - 24px);
+  padding: 10px;
   background: rgba(255, 248, 233, 0.97);
-  border-top: 1px solid #d9bd86;
-  box-shadow: 0 -8px 22px rgba(17, 24, 32, 0.16);
+  border: 1px solid #d9bd86;
+  border-radius: 8px;
+  box-shadow: 0 10px 24px rgba(17, 24, 32, 0.2);
 }
 
 .morse-keypad[hidden] {
@@ -860,10 +863,29 @@ footer {
 }
 
 body.morse-keypad-open {
-  padding-bottom: 78px;
+  padding-bottom: 0;
 }
 
 @media (max-width: 780px) {
+  body.morse-keypad-open {
+    padding-bottom: 78px;
+  }
+
+  .morse-keypad {
+    right: 0;
+    bottom: 0;
+    left: 0;
+    top: auto;
+    width: auto;
+    max-width: none;
+    padding: 10px max(12px, env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+    border-radius: 0;
+    box-shadow: 0 -8px 22px rgba(17, 24, 32, 0.16);
+  }
+
   .intro,
   .map-panel,
   .step-layout {
