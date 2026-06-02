@@ -463,6 +463,12 @@ main {
   border-radius: 4px;
 }
 
+.answer-box-compact {
+  width: 46px;
+  height: 46px;
+  font-size: 1.12rem;
+}
+
 .task {
   padding: 15px;
   background: #fbfcfd;

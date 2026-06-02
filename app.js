@@ -526,11 +526,11 @@ function renderWorksheet(step, stepIndex) {
           <div class="propatria-formula">
             <strong>10</strong>
             <span>+</span>
-            ${renderSimpleBox(stepIndex, "patria-digit-1", "", "digit", "Premier chiffre additionné")}
+            ${renderSimpleBox(stepIndex, "patria-digit-1", "", "number2 compact", "Premier nombre additionné")}
             <span>+</span>
-            ${renderSimpleBox(stepIndex, "patria-digit-2", "", "digit", "Deuxième chiffre additionné")}
+            ${renderSimpleBox(stepIndex, "patria-digit-2", "", "number2 compact", "Deuxième nombre additionné")}
             <span>=</span>
-            ${renderSimpleBox(stepIndex, "patria-result", "", "digit", "Résultat")}
+            ${renderSimpleBox(stepIndex, "patria-result", "", "number2 compact", "Résultat")}
           </div>
           <div class="propatria-line">
             <span>À quelle lettre de l'alphabet correspond ce chiffre ?</span>
@@ -758,16 +758,22 @@ function renderInlineMorseBox(stepIndex, name, prefill, ariaLabel) {
 function renderSimpleBox(stepIndex, name, visibleLabel, mode, ariaLabel) {
   const key = getBoxKey(stepIndex, name);
   const value = state.answers[key] || "";
+  const modes = mode.split(" ");
+  const inputMode = modes.includes("digit") || modes.includes("number2") ? "numeric" : "text";
+  const maxLength = modes.includes("number2") ? 2 : modes.includes("digit") ? 1 : 2;
+  const className = modes.includes("compact")
+    ? "answer-box answer-box-compact"
+    : "answer-box";
   return `
     <label class="answer-box-label">
       <span>${visibleLabel}</span>
       <input
-        class="answer-box"
+        class="${className}"
         data-box="${key}"
         data-mode="${mode}"
         value="${escapeHtml(value)}"
-        inputmode="${mode === "digit" ? "numeric" : "text"}"
-        maxlength="${mode === "digit" ? "1" : "2"}"
+        inputmode="${inputMode}"
+        maxlength="${maxLength}"
         autocomplete="off"
         aria-label="${ariaLabel}"
       >
@@ -776,11 +782,15 @@ function renderSimpleBox(stepIndex, name, visibleLabel, mode, ariaLabel) {
 }
 
 function formatBoxValue(value, mode) {
-  if (mode === "digit") {
+  if (mode.includes("number2")) {
+    return value.replace(/\D/g, "").slice(0, 2);
+  }
+
+  if (mode.includes("digit")) {
     return value.replace(/\D/g, "").slice(0, 1);
   }
 
-  if (mode === "letter") {
+  if (mode.includes("letter")) {
     return value.toUpperCase().replace(/[^A-Z]/g, "").slice(0, 1);
   }
 
