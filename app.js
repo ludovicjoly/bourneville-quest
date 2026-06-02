@@ -4,10 +4,10 @@ const steps = [
   {
     id: "manoir",
     name: "Le Manoir",
-    directions: "Depuis la maison des metiers, remontez de 170m en direction du chemin du manoir.",
+    directions: "Depuis la maison des métiers, remontez de 170m en direction du chemin du manoir.",
     story:
-      "Cherchez un labyrinthe a l'entree du chemin et trouvez le parcours qui mene jusqu'a la croix de guerre.",
-    clue: "Son travail est essentiel a la pollinisation.",
+      "Cherchez un labyrinthe à l'entrée du chemin et trouvez le parcours qui mène jusqu'à la croix de guerre.",
+    clue: "Son travail est essentiel à la pollinisation.",
     morseBoxes: {
       label: "Mot et codes morse",
       count: 7,
@@ -25,53 +25,53 @@ const steps = [
       {
         label: "Mot de 7 lettres",
         prompt:
-          "Recopiez les lettres dans l'ordre ou vous les rencontrez. Ce mot servira a traduire le code morse du message."
+          "Recopiez les lettres dans l'ordre où vous les rencontrez. Ce mot servira à traduire le code morse du message."
       }
     ]
   },
   {
     id: "eglise",
-    name: "L'Eglise Saint Pierre",
+    name: "L'Église Saint Pierre",
     directions:
-      "Suivez le chemin en direction de l'ouest pendant 200m. Face a un choix de direction, observez la fumee pour qu'elle vous guide sur la bonne voie. Il semble qu'elle s'oriente vers le Sud. Continuez 140m.",
+      "Suivez le chemin en direction de l'ouest pendant 200m. Face à un choix de direction, observez la fumée pour qu'elle vous guide sur la bonne voie. Il semble qu'elle s'oriente vers le Sud. Continuez 140m.",
     story:
-      "Vous devez trouver les 4 chiffres d'un code secret qui ouvrira une boite a cles.",
+      "Vous devez trouver les 4 chiffres d'un code secret qui ouvrira une boîte à clés.",
     clue: "Les chiffres du code sont uniques.",
     morseBoxes: {
-      label: "Lettre et code morse trouves dans la boite",
+      label: "Lettre et code morse trouvés dans la boîte",
       count: 1
     },
     tasks: [
       {
         label: "1er chiffre",
         prompt:
-          "Trouvez le vieux conifere present dans le cimetiere. Combien y a-t-il de lettres dans le nom de cet arbre ?",
+          "Trouvez le vieux conifère présent dans le cimetière. Combien y a-t-il de lettres dans le nom de cet arbre ?",
         box: { name: "code-0", mode: "digit", ariaLabel: "Premier chiffre du code" }
       },
       {
-        label: "2eme chiffre",
+        label: "2ème chiffre",
         prompt:
-          "Observez le sommet de l'eglise. Combien y a-t-il de lettres dans le nom de l'oiseau qui indique le sens du vent ?",
-        box: { name: "code-1", mode: "digit", ariaLabel: "Deuxieme chiffre du code" }
+          "Observez le sommet de l'église. Combien y a-t-il de lettres dans le nom de l'oiseau qui indique le sens du vent ?",
+        box: { name: "code-1", mode: "digit", ariaLabel: "Deuxième chiffre du code" }
       },
       {
-        label: "3eme chiffre",
+        label: "3ème chiffre",
         prompt:
-          "Resolvez l'enigme mathematique laissee par l'eclaireur anglais.",
+          "Résolvez l'énigme mathématique laissée par l'éclaireur anglais.",
         mathPuzzle: {
           resultName: "code-2"
         }
       },
       {
-        label: "4eme chiffre",
+        label: "4ème chiffre",
         prompt:
-          "L'eclaireur n'a pas eu le temps de laisser l'enigme. Faites preuve d'ingeniosite.",
-        box: { name: "code-3", mode: "digit", ariaLabel: "Quatrieme chiffre du code" }
+          "L'éclaireur n'a pas eu le temps de laisser l'énigme. Faites preuve d'ingéniosité.",
+        box: { name: "code-3", mode: "digit", ariaLabel: "Quatrième chiffre du code" }
       },
       {
         label: "Lettre et code morse",
         prompt:
-          "Notez la lettre et son code morse trouves dans la boite. Refermez la boite et brouillez le code."
+          "Notez la lettre et son code morse trouvés dans la boîte. Refermez la boîte et brouillez le code."
       }
     ]
   },
@@ -79,11 +79,11 @@ const steps = [
     id: "pro-patria",
     name: "Pro Patria",
     directions:
-      "Partez en direction du carrefour. Depuis ce point strategique vous pouvez observer plusieurs directions. La bonne vous guide vers un monument commemoratif a portee de vue.",
+      "Partez en direction du carrefour. Depuis ce point stratégique vous pouvez observer plusieurs directions. La bonne vous guide vers un monument commémoratif à portée de vue.",
     story:
       "Faites le tour du monument aux morts pour compter le nombre de noms de familles inscrits dans la pierre.",
     clue:
-      "Additionnez les chiffres du nombre trouve, puis cherchez la lettre correspondante dans l'alphabet.",
+      "Additionnez les chiffres du nombre trouvé, puis cherchez la lettre correspondante dans l'alphabet.",
     worksheet: {
       type: "proPatria",
       label: "Calcul et lettre obtenue"
@@ -91,22 +91,22 @@ const steps = [
     tasks: [
       {
         label: "Nombre de noms",
-        prompt: "Comptez le nombre de noms de familles inscrits dans la pierre, puis additionnez les chiffres du nombre trouve."
+        prompt: "Comptez le nombre de noms de familles inscrits dans la pierre, puis additionnez les chiffres du nombre trouvé."
       },
       {
         label: "Lettre obtenue",
-        prompt: "Reportez le resultat et la lettre correspondante dans les cases."
+        prompt: "Reportez le résultat et la lettre correspondante dans les cases."
       }
     ]
   },
   {
     id: "foret",
-    name: "La Foret",
+    name: "La Forêt",
     directions:
-      "Vous etes trop a decouvert pres des grands axes. Il vous faut emprunter les chemins pour plus de discretion. Rejoignez la place non loin de vous et continuez par la sente verdoyante.",
+      "Vous êtes trop à découvert près des grands axes. Il vous faut emprunter les chemins pour plus de discrétion. Rejoignez la place non loin de vous et continuez par la sente verdoyante.",
     story:
-      "L'eclaireur anglais vous a laisse un puzzle quelque part sous les arbres.",
-    clue: "N'oubliez pas ce que vous connaissez deja.",
+      "L'éclaireur anglais vous a laissé un puzzle quelque part sous les arbres.",
+    clue: "N'oubliez pas ce que vous connaissez déjà.",
     morseBoxes: {
       label: "Nom de code et codes morse",
       count: 7,
@@ -124,7 +124,7 @@ const steps = [
       {
         label: "Nom de code",
         prompt:
-          "Mettez le puzzle dans le bon ordre pour decouvrir le nom de code de l'operation de grande ampleur en Normandie."
+          "Mettez le puzzle dans le bon ordre pour découvrir le nom de code de l'opération de grande ampleur en Normandie."
       }
     ]
   },
@@ -132,10 +132,10 @@ const steps = [
     id: "arbre",
     name: "L'Arbre Solitaire",
     directions:
-      "Continuez sur la sente. En sortie, tournez a gauche vers le Nord. 60m plus loin, tournez a droite vers l'Est et marchez 400m. La fumee vous montre toujours la voie quand vous hesitez...",
+      "Continuez sur la sente. En sortie, tournez à gauche vers le Nord. 60m plus loin, tournez à droite vers l'Est et marchez 400m. La fumée vous montre toujours la voie quand vous hésitez...",
     story:
-      "Vous pourrez probablement y decouvrir l'avant-dernier indice laisse par l'eclaireur.",
-    clue: "Quelles sont les deux lettres qui abregent le mot Docteur ?",
+      "Vous pourrez probablement y découvrir l'avant-dernier indice laissé par l'éclaireur.",
+    clue: "Quelles sont les deux lettres qui abrègent le mot Docteur ?",
     morseBoxes: {
       label: "Deux lettres et leurs codes morse",
       count: 2,
@@ -146,7 +146,7 @@ const steps = [
     },
     tasks: [
       {
-        label: "Indice trouve",
+        label: "Indice trouvé",
         prompt: "Notez les deux lettres obtenues."
       }
     ]
@@ -156,26 +156,26 @@ const steps = [
     name: "La Mairie",
     directions: "Remontez en direction du centre bourg et trouvez la Mairie.",
     story:
-      "Vous etes arrive a la derniere etape pour decoder le message de l'eclaireur.",
-    clue: "Les informations sont souvent bien affichees aux yeux de tous.",
+      "Vous êtes arrivé à la dernière étape pour décoder le message de l'éclaireur.",
+    clue: "Les informations sont souvent bien affichées aux yeux de tous.",
     morseBoxes: {
-      label: "Derniere lettre et son code morse",
+      label: "Dernière lettre et son code morse",
       count: 1
     },
     tasks: [
       {
         label: "Dernier indice",
-        prompt: "Devant la Mairie, regardez autour de vous et notez l'indice trouve."
+        prompt: "Devant la Mairie, regardez autour de vous et notez l'indice trouvé."
       }
     ]
   },
   {
     id: "message-final",
     name: "Message final",
-    directions: "Vous avez reuni les indices. Decodez maintenant le message laisse par l'eclaireur.",
+    directions: "Vous avez réuni les indices. Décodez maintenant le message laissé par l'éclaireur.",
     story:
-      "Utilisez les lettres et les codes morse trouves pendant le parcours pour completer le message.",
-    clue: "Relisez les codes notes a chaque etape.",
+      "Utilisez les lettres et les codes morse trouvés pendant le parcours pour compléter le message.",
+    clue: "Relisez les codes notés à chaque étape.",
     finalMessageStep: true,
     tasks: []
   }
@@ -211,7 +211,7 @@ function persistState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   const saveState = document.querySelector("#saveState");
   if (saveState) {
-    saveState.textContent = "Session sauvegardee automatiquement.";
+    saveState.textContent = "Session sauvegardée automatiquement.";
   }
 }
 
@@ -307,7 +307,7 @@ function renderStep() {
   stepView.innerHTML = `
     <div class="step-layout">
       <article>
-        <p class="section-label">Etape ${state.activeStep + 1} / ${steps.length}</p>
+        <p class="section-label">Étape ${state.activeStep + 1} / ${steps.length}</p>
         <h2>${step.name}</h2>
         <p class="story">${step.story}</p>
         <div class="directions">${step.directions}</div>
@@ -321,9 +321,9 @@ function renderStep() {
         ${morseBoxesMarkup}
         ${finalMarkup}
         <div class="step-actions">
-          <button class="primary-button" id="completeStep" type="button">Marquer l'etape faite</button>
-          <button class="secondary-button" id="previousStep" type="button">Etape precedente</button>
-          <button class="secondary-button" id="nextStep" type="button">Etape suivante</button>
+          <button class="primary-button" id="completeStep" type="button">Marquer l'étape faite</button>
+          <button class="secondary-button" id="previousStep" type="button">Étape précédente</button>
+          <button class="secondary-button" id="nextStep" type="button">Étape suivante</button>
         </div>
       </article>
       <aside class="clue-panel desktop-clue">
@@ -410,14 +410,14 @@ function renderWorksheet(step, stepIndex) {
           <div class="propatria-formula">
             <strong>10</strong>
             <span>+</span>
-            ${renderSimpleBox(stepIndex, "patria-digit-1", "", "digit", "Premier chiffre additionne")}
+            ${renderSimpleBox(stepIndex, "patria-digit-1", "", "digit", "Premier chiffre additionné")}
             <span>+</span>
-            ${renderSimpleBox(stepIndex, "patria-digit-2", "", "digit", "Deuxieme chiffre additionne")}
+            ${renderSimpleBox(stepIndex, "patria-digit-2", "", "digit", "Deuxième chiffre additionné")}
             <span>=</span>
-            ${renderSimpleBox(stepIndex, "patria-result", "", "digit", "Resultat")}
+            ${renderSimpleBox(stepIndex, "patria-result", "", "digit", "Résultat")}
           </div>
           <div class="propatria-line">
-            <span>A quelle lettre de l'alphabet correspond ce chiffre ?</span>
+            <span>À quelle lettre de l'alphabet correspond ce chiffre ?</span>
             ${renderInlineMorseBox(stepIndex, "patria-morse", { morse: "___" }, "Lettre correspondante et code morse")}
           </div>
         </div>
@@ -450,7 +450,7 @@ function renderMathPuzzle(stepIndex, config) {
   }).join("");
 
   return `
-    <div class="math-puzzle" aria-label="Enigme mathematique du troisieme chiffre">
+    <div class="math-puzzle" aria-label="Énigme mathématique du troisième chiffre">
       <div class="math-column-totals">
         <span>= 11</span>
         <span>= 13</span>
@@ -464,7 +464,7 @@ function renderMathPuzzle(stepIndex, config) {
           <span>= 9</span>
         </div>
         <div class="math-arrow" aria-hidden="true"></div>
-        ${renderSimpleBox(stepIndex, config.resultName, "", "digit", "Troisieme chiffre du code")}
+        ${renderSimpleBox(stepIndex, config.resultName, "", "digit", "Troisième chiffre du code")}
       </div>
     </div>
   `;
@@ -482,7 +482,7 @@ function renderGridInput(stepIndex, name) {
       inputmode="numeric"
       maxlength="1"
       autocomplete="off"
-      aria-label="Case de la grille mathematique"
+      aria-label="Case de la grille mathématique"
     >
   `;
 }
@@ -490,9 +490,9 @@ function renderGridInput(stepIndex, name) {
 function renderCollectedClues() {
   const groups = [
     { title: "1 - Le Manoir", stepIndex: 0 },
-    { title: "2 - L'Eglise Saint Pierre", stepIndex: 1 },
+    { title: "2 - L'Église Saint Pierre", stepIndex: 1 },
     { title: "3 - Pro Patria", inline: true },
-    { title: "4 - La Foret", stepIndex: 3 },
+    { title: "4 - La Forêt", stepIndex: 3 },
     { title: "5 - L'Arbre Solitaire", stepIndex: 4 },
     { title: "6 - La Mairie", stepIndex: 5 }
   ];
@@ -519,7 +519,7 @@ function renderCollectedClues() {
 
   return `
     <div class="collected-clues">
-      <h3>Indices recoltes</h3>
+      <h3>Indices récoltés</h3>
       ${rows}
     </div>
   `;
@@ -542,9 +542,9 @@ function renderScoutMessage() {
 
   return `
     <div class="scout-message">
-      <h3>Message de l'eclaireur</h3>
+      <h3>Message de l'éclaireur</h3>
       ${rows}
-      <p class="save-state" id="saveState">Session sauvegardee automatiquement.</p>
+      <p class="save-state" id="saveState">Session sauvegardée automatiquement.</p>
     </div>
   `;
 }
@@ -766,7 +766,7 @@ function escapeHtml(value) {
 }
 
 resetGame.addEventListener("click", () => {
-  const confirmed = window.confirm("Recommencer le jeu et effacer la session enregistree ?");
+  const confirmed = window.confirm("Recommencer le jeu et effacer la session enregistrée ?");
   if (!confirmed) {
     return;
   }
@@ -775,7 +775,7 @@ resetGame.addEventListener("click", () => {
   state = { ...defaultState };
   const saveState = document.querySelector("#saveState");
   if (saveState) {
-    saveState.textContent = "Session remise a zero.";
+    saveState.textContent = "Session remise à zéro.";
   }
   render();
 });
