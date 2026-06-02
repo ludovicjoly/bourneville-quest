@@ -185,6 +185,7 @@ const defaultState = {
   activeStep: 0,
   answers: {},
   completed: {},
+  revealedClues: {},
   finalMessage: "",
   updatedAt: null
 };
@@ -311,10 +312,7 @@ function renderStep() {
         <h2>${step.name}</h2>
         <p class="story">${step.story}</p>
         <div class="directions">${step.directions}</div>
-        <div class="clue-panel mobile-clue">
-          <strong>Indice</strong>
-          <p>${step.clue}</p>
-        </div>
+        ${renderCluePanel(step, "mobile-clue")}
         ${visualMarkup}
         ${worksheetMarkup}
         <div class="task-list">${taskMarkup}</div>
@@ -326,10 +324,7 @@ function renderStep() {
           <button class="secondary-button" id="nextStep" type="button">Étape suivante</button>
         </div>
       </article>
-      <aside class="clue-panel desktop-clue">
-        <strong>Indice</strong>
-        <p>${step.clue}</p>
-      </aside>
+      ${renderCluePanel(step, "desktop-clue", true)}
     </div>
   `;
 
@@ -366,6 +361,14 @@ function renderStep() {
     });
   });
 
+  stepView.querySelectorAll("[data-reveal-clue]").forEach((button) => {
+    button.addEventListener("click", (event) => {
+      state.revealedClues[event.currentTarget.dataset.revealClue] = true;
+      persistState();
+      render();
+    });
+  });
+
   document.querySelector("#completeStep").addEventListener("click", () => {
     state.completed[step.id] = true;
     if (state.activeStep < steps.length - 1) {
@@ -386,6 +389,28 @@ function renderStep() {
     persistState();
     render();
   });
+}
+
+function renderCluePanel(step, className, isAside = false) {
+  const revealed = Boolean(state.revealedClues[step.id]);
+  const tag = isAside ? "aside" : "div";
+
+  if (revealed) {
+    return `
+      <${tag} class="clue-panel ${className}">
+        <strong>Indice révélé</strong>
+        <p>${step.clue}</p>
+      </${tag}>
+    `;
+  }
+
+  return `
+    <${tag} class="clue-panel clue-card ${className}">
+      <strong>Indice scellé</strong>
+      <p>À ouvrir seulement si vous êtes bloqués.</p>
+      <button class="secondary-button clue-button" type="button" data-reveal-clue="${step.id}">Révéler l'indice</button>
+    </${tag}>
+  `;
 }
 
 function renderWorksheet(step, stepIndex) {
