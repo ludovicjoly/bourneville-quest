@@ -18,6 +18,16 @@
     <main>
       <section class="worksheet-panel traffic-panel">
         <span id="trafficUpdated">Chargement des statistiques...</span>
+        <div class="traffic-summary" aria-label="Totaux archivés">
+          <div>
+            <strong id="totalViews">0</strong>
+            <span>vues au total</span>
+          </div>
+          <div>
+            <strong id="totalUniqueVisitors">0</strong>
+            <span>visiteurs uniques journaliers</span>
+          </div>
+        </div>
         <div class="traffic-table-wrap">
           <table class="traffic-table">
             <thead>
@@ -37,6 +47,8 @@
       const formatter = new Intl.DateTimeFormat("fr-FR", { dateStyle: "medium" });
       const rows = document.querySelector("#trafficRows");
       const updated = document.querySelector("#trafficUpdated");
+      const totalViews = document.querySelector("#totalViews");
+      const totalUniqueVisitors = document.querySelector("#totalUniqueVisitors");
 
       fetch(`data/github-traffic-history.json?v=${Date.now()}`)
         .then((response) => {
@@ -47,6 +59,13 @@
         })
         .then((history) => {
           const days = Object.entries(history.days || {}).reverse();
+          const totals = days.reduce((sum, [, item]) => ({
+            views: sum.views + (item.views ?? 0),
+            uniqueVisitors: sum.uniqueVisitors + (item.uniqueVisitors ?? 0)
+          }), { views: 0, uniqueVisitors: 0 });
+
+          totalViews.textContent = totals.views;
+          totalUniqueVisitors.textContent = totals.uniqueVisitors;
           updated.textContent = history.updatedAt
             ? `Dernière mise à jour : ${formatter.format(new Date(history.updatedAt))}`
             : "Aucune statistique archivée pour le moment.";
