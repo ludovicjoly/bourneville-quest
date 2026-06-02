@@ -84,7 +84,8 @@ const steps = [
       "Additionnez les chiffres du nombre trouvé, puis cherchez la lettre correspondante dans l'alphabet.",
     worksheet: {
       type: "proPatria",
-      label: "Calcul et lettre obtenue"
+      label: "Calcul et lettre obtenue",
+      afterTasks: true
     },
     tasks: [
       {
@@ -307,6 +308,12 @@ function renderStep() {
         </div>
       `
     : "";
+  const worksheetBeforeTasks = step.worksheet && !step.worksheet.afterTasks
+    ? worksheetMarkup
+    : "";
+  const worksheetAfterTasks = step.worksheet?.afterTasks
+    ? worksheetMarkup
+    : "";
 
   stepView.innerHTML = `
     <div class="step-layout">
@@ -317,8 +324,9 @@ function renderStep() {
         <p class="story">${step.story}</p>
         ${renderCluePanel(step, "mobile-clue")}
         ${visualMarkup}
-        ${worksheetMarkup}
+        ${worksheetBeforeTasks}
         <div class="task-list">${taskMarkup}</div>
+        ${worksheetAfterTasks}
         ${morseBoxesMarkup}
         ${finalMarkup}
         <div class="step-actions">
