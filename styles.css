@@ -286,7 +286,8 @@ main {
 
 .story {
   margin: 14px 0 18px;
-  color: var(--muted);
+  color: var(--ink);
+  font-weight: 600;
 }
 
 .directions {
