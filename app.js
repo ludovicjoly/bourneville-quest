@@ -197,6 +197,8 @@ const stepView = document.querySelector("#stepView");
 const progressLabel = document.querySelector("#progressLabel");
 const progressBar = document.querySelector("#progressBar");
 const resetGame = document.querySelector("#resetGame");
+const morseKeypad = document.querySelector("#morseKeypad");
+let activeMorseInput = null;
 
 function loadState() {
   try {
@@ -251,6 +253,8 @@ function renderTabs() {
 }
 
 function renderStep() {
+  hideMorseKeypad();
+
   const step = steps[state.activeStep];
   const visualMarkup = step.image
     ? `
@@ -695,7 +699,8 @@ function renderInlineMorseBox(stepIndex, name, prefill, ariaLabel) {
         data-part="morse"
         value="${escapeHtml(morse)}"
         autocomplete="off"
-        inputmode="text"
+        inputmode="none"
+        pattern="[._]*"
         placeholder="._"
         ${morseLocked}
         aria-label="${ariaLabel} morse"
@@ -771,7 +776,8 @@ function renderMorseBoxes(step, stepIndex) {
           data-part="morse"
           value="${escapeHtml(morse)}"
           autocomplete="off"
-          inputmode="text"
+          inputmode="none"
+          pattern="[._]*"
           placeholder="._"
           ${morseLocked}
           aria-label="Code morse ${index + 1}"
@@ -797,7 +803,90 @@ function getStoredValue(key, fallback) {
 }
 
 function normalizeMorseValue(value) {
-  return String(value).replace(/-/g, "_").replace(/[^._\s/]/g, "");
+  return String(value).replace(/-/g, "_").replace(/[^._]/g, "");
+}
+
+function setupMorseKeypad() {
+  if (!morseKeypad) {
+    return;
+  }
+
+  document.addEventListener("focusin", (event) => {
+    if (isEditableMorseInput(event.target)) {
+      showMorseKeypad(event.target);
+      return;
+    }
+
+    if (!morseKeypad.contains(event.target)) {
+      hideMorseKeypad();
+    }
+  });
+
+  document.addEventListener("pointerdown", (event) => {
+    if (
+      activeMorseInput
+      && !activeMorseInput.contains(event.target)
+      && !morseKeypad.contains(event.target)
+    ) {
+      hideMorseKeypad();
+    }
+  });
+
+  morseKeypad.querySelectorAll("[data-morse-key]").forEach((button) => {
+    button.addEventListener("pointerdown", (event) => {
+      event.preventDefault();
+    });
+
+    button.addEventListener("click", () => {
+      applyMorseKey(button.dataset.morseKey);
+    });
+  });
+}
+
+function isEditableMorseInput(element) {
+  return Boolean(
+    element
+      && element.matches?.('input[data-part="morse"][data-morse]:not([readonly])')
+  );
+}
+
+function showMorseKeypad(input) {
+  activeMorseInput = input;
+  morseKeypad.hidden = false;
+  document.body.classList.add("morse-keypad-open");
+}
+
+function hideMorseKeypad() {
+  activeMorseInput = null;
+  if (morseKeypad) {
+    morseKeypad.hidden = true;
+  }
+  document.body.classList.remove("morse-keypad-open");
+}
+
+function applyMorseKey(key) {
+  if (!isEditableMorseInput(activeMorseInput)) {
+    hideMorseKeypad();
+    return;
+  }
+
+  const input = activeMorseInput;
+  const start = input.selectionStart ?? input.value.length;
+  const end = input.selectionEnd ?? input.value.length;
+  const before = input.value.slice(0, start);
+  const after = input.value.slice(end);
+  const hasSelection = end > start;
+  const nextValue = key === "delete"
+    ? (hasSelection ? before + after : before.slice(0, -1) + after)
+    : before + key + after;
+  const nextCursor = key === "delete"
+    ? (hasSelection ? start : Math.max(0, start - 1))
+    : start + key.length;
+
+  input.value = normalizeMorseValue(nextValue);
+  input.focus({ preventScroll: true });
+  input.setSelectionRange(nextCursor, nextCursor);
+  input.dispatchEvent(new Event("input", { bubbles: true }));
 }
 
 function updateProgress() {
@@ -836,4 +925,5 @@ resetGame.addEventListener("click", () => {
   render();
 });
 
+setupMorseKeypad();
 render();

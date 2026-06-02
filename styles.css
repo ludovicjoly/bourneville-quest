@@ -782,6 +782,43 @@ button:focus-visible {
   font-size: 0.92rem;
 }
 
+.morse-keypad {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 20;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 10px max(12px, env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  background: rgba(255, 248, 233, 0.97);
+  border-top: 1px solid #d9bd86;
+  box-shadow: 0 -8px 22px rgba(17, 24, 32, 0.16);
+}
+
+.morse-keypad[hidden] {
+  display: none;
+}
+
+.morse-keypad button {
+  min-width: 72px;
+  min-height: 48px;
+  padding: 8px 14px;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid #9f7b3b;
+  border-radius: 8px;
+  font-size: 1.35rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.morse-keypad button[data-morse-key="delete"] {
+  min-width: 96px;
+  font-size: 1rem;
+}
+
 footer {
   width: min(1060px, calc(100% - 28px));
   margin: 0 auto;
@@ -799,7 +836,17 @@ footer {
   white-space: nowrap;
 }
 
+@media (min-width: 781px) {
+  .morse-keypad {
+    display: none;
+  }
+}
+
 @media (max-width: 780px) {
+  body.morse-keypad-open {
+    padding-bottom: 78px;
+  }
+
   .intro,
   .map-panel,
   .step-layout {
