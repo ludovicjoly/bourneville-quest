@@ -211,12 +211,16 @@ main {
 }
 
 .icon-button {
-  display: inline-grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 42px;
+  min-height: 42px;
+  padding: 8px 11px;
   flex: 0 0 auto;
   color: #fff;
+  font-weight: 700;
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.24);
   border-radius: 8px;
@@ -785,6 +789,10 @@ footer {
   .app-header {
     position: sticky;
     padding: 10px 12px;
+  }
+
+  .icon-button {
+    padding: 8px;
   }
 
   .kicker {
