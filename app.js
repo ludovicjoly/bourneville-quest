@@ -197,7 +197,20 @@ const progressLabel = document.querySelector("#progressLabel");
 const progressBar = document.querySelector("#progressBar");
 const resetGame = document.querySelector("#resetGame");
 const morseKeypad = document.querySelector("#morseKeypad");
+const locatePlayer = document.querySelector("#locatePlayer");
+const locationStatus = document.querySelector("#locationStatus");
+const mapUserMarker = document.querySelector("#mapUserMarker");
 let activeMorseControl = null;
+
+const mapCalibration = {
+  imageWidth: 1557,
+  imageHeight: 868,
+  points: [
+    { name: "Pro Patria", lat: 49.3909918, lon: 0.6165151, x: 270, y: 350 },
+    { name: "Église Saint-Pierre", lat: 49.391232, lon: 0.61773, x: 620, y: 318 },
+    { name: "Mairie", lat: 49.391876, lon: 0.620241, x: 1145, y: 402 }
+  ]
+};
 
 function loadState() {
   try {
@@ -1002,6 +1015,148 @@ function applyMorseKey(key) {
   clearCompletionWarning();
 }
 
+function setupMapLocation() {
+  if (!locatePlayer || !locationStatus || !mapUserMarker) {
+    return;
+  }
+
+  locatePlayer.addEventListener("click", () => {
+    if (!navigator.geolocation) {
+      locationStatus.textContent = "La géolocalisation n'est pas disponible sur ce navigateur.";
+      return;
+    }
+
+    locatePlayer.disabled = true;
+    locationStatus.textContent = "Recherche de votre position...";
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        locatePlayer.disabled = false;
+        showPlayerOnMap(position.coords);
+      },
+      (error) => {
+        locatePlayer.disabled = false;
+        mapUserMarker.hidden = true;
+        locationStatus.textContent = getGeolocationErrorMessage(error);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 12000,
+        maximumAge: 15000
+      }
+    );
+  });
+}
+
+function showPlayerOnMap(coords) {
+  const point = gpsToMapPoint(coords.latitude, coords.longitude);
+
+  if (!point || point.x < -0.08 || point.x > 1.08 || point.y < -0.08 || point.y > 1.08) {
+    mapUserMarker.hidden = true;
+    locationStatus.textContent = `Position reçue, mais elle semble hors du plan du parcours. Précision GPS : ${formatAccuracy(coords.accuracy)}.`;
+    return;
+  }
+
+  const x = clamp(point.x, 0, 1);
+  const y = clamp(point.y, 0, 1);
+  mapUserMarker.style.setProperty("--map-user-x", `${x * 100}%`);
+  mapUserMarker.style.setProperty("--map-user-y", `${y * 100}%`);
+  mapUserMarker.hidden = false;
+  locationStatus.textContent = `Position approximative affichée sur le plan. Précision GPS : ${formatAccuracy(coords.accuracy)}.`;
+}
+
+function gpsToMapPoint(lat, lon) {
+  const origin = mapCalibration.points[0];
+  const samples = mapCalibration.points.map((point) => {
+    const local = gpsToLocalMeters(point.lat, point.lon, origin.lat, origin.lon);
+    return { east: local.east, north: local.north, x: point.x, y: point.y };
+  });
+  const current = gpsToLocalMeters(lat, lon, origin.lat, origin.lon);
+  const xCoefficients = solveAffine(samples, "x");
+  const yCoefficients = solveAffine(samples, "y");
+
+  if (!xCoefficients || !yCoefficients) {
+    return null;
+  }
+
+  const px = xCoefficients[0] + xCoefficients[1] * current.east + xCoefficients[2] * current.north;
+  const py = yCoefficients[0] + yCoefficients[1] * current.east + yCoefficients[2] * current.north;
+
+  return {
+    x: px / mapCalibration.imageWidth,
+    y: py / mapCalibration.imageHeight
+  };
+}
+
+function gpsToLocalMeters(lat, lon, originLat, originLon) {
+  const metersPerDegreeLat = 111320;
+  const metersPerDegreeLon = 111320 * Math.cos(toRadians(originLat));
+
+  return {
+    east: (lon - originLon) * metersPerDegreeLon,
+    north: (lat - originLat) * metersPerDegreeLat
+  };
+}
+
+function solveAffine(samples, key) {
+  const matrix = samples.map((sample) => [1, sample.east, sample.north]);
+  const values = samples.map((sample) => sample[key]);
+  const determinant =
+    matrix[0][0] * (matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1])
+    - matrix[0][1] * (matrix[1][0] * matrix[2][2] - matrix[1][2] * matrix[2][0])
+    + matrix[0][2] * (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0]);
+
+  if (Math.abs(determinant) < 0.000001) {
+    return null;
+  }
+
+  return [0, 1, 2].map((column) => {
+    const replaced = matrix.map((row, rowIndex) =>
+      row.map((value, valueIndex) => valueIndex === column ? values[rowIndex] : value)
+    );
+    const replacedDeterminant =
+      replaced[0][0] * (replaced[1][1] * replaced[2][2] - replaced[1][2] * replaced[2][1])
+      - replaced[0][1] * (replaced[1][0] * replaced[2][2] - replaced[1][2] * replaced[2][0])
+      + replaced[0][2] * (replaced[1][0] * replaced[2][1] - replaced[1][1] * replaced[2][0]);
+
+    return replacedDeterminant / determinant;
+  });
+}
+
+function getGeolocationErrorMessage(error) {
+  if (error.code === error.PERMISSION_DENIED) {
+    return "Autorisation GPS refusée. Activez la localisation pour afficher votre position.";
+  }
+
+  if (error.code === error.POSITION_UNAVAILABLE) {
+    return "Position GPS indisponible pour le moment.";
+  }
+
+  if (error.code === error.TIMEOUT) {
+    return "La recherche GPS a pris trop de temps. Réessayez dehors ou près d'une fenêtre.";
+  }
+
+  return "Impossible de récupérer votre position GPS.";
+}
+
+function formatAccuracy(value) {
+  if (!Number.isFinite(value)) {
+    return "inconnue";
+  }
+
+  return value >= 1000
+    ? `${(value / 1000).toFixed(1)} km`
+    : `${Math.round(value)} m`;
+}
+
+function toRadians(value) {
+  return value * Math.PI / 180;
+}
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
 function updateProgress() {
   const completedCount = steps.filter((step) => state.completed[step.id]).length;
   const percent = Math.round((completedCount / steps.length) * 100);
@@ -1039,4 +1194,5 @@ resetGame.addEventListener("click", () => {
 });
 
 setupMorseKeypad();
+setupMapLocation();
 render();

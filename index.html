@@ -60,8 +60,17 @@
         <div>
           <p class="section-label">Plan du parcours</p>
           <h2>Voici le plan et les énigmes à résoudre</h2>
+          <div class="map-actions">
+            <button class="secondary-button" id="locatePlayer" type="button">Me localiser</button>
+            <p class="map-status" id="locationStatus">Position GPS indicative sur le plan illustré.</p>
+          </div>
         </div>
-        <img src="assets/route-map.jpg" alt="Plan dessiné du jeu de piste dans Bourneville">
+        <div class="map-figure" id="routeMapFigure">
+          <img src="assets/route-map.jpg" alt="Plan dessiné du jeu de piste dans Bourneville">
+          <div class="map-user-marker" id="mapUserMarker" hidden>
+            <span>Vous êtes ici</span>
+          </div>
+        </div>
       </section>
 
       <nav class="step-tabs" id="stepTabs" aria-label="Étapes du jeu"></nav>
