@@ -208,6 +208,7 @@ const mapCalibration = {
   points: [
     { name: "Pro Patria", lat: 49.3909918, lon: 0.6165151, x: 270, y: 350 },
     { name: "Église Saint-Pierre", lat: 49.391232, lon: 0.61773, x: 620, y: 318 },
+    { name: "Entrée du chemin du Manoir", lat: 49.3923623, lon: 0.6198166, x: 920, y: 44 },
     { name: "Mairie", lat: 49.391876, lon: 0.620241, x: 1145, y: 402 }
   ]
 };
@@ -1072,8 +1073,15 @@ function gpsToMapPoint(lat, lon) {
     return { east: local.east, north: local.north, x: point.x, y: point.y };
   });
   const current = gpsToLocalMeters(lat, lon, origin.lat, origin.lon);
-  const xCoefficients = solveAffine(samples, "x");
-  const yCoefficients = solveAffine(samples, "y");
+  const nearestSamples = samples
+    .map((sample) => ({
+      ...sample,
+      distance: Math.hypot(sample.east - current.east, sample.north - current.north)
+    }))
+    .sort((left, right) => left.distance - right.distance)
+    .slice(0, 3);
+  const xCoefficients = solveAffine(nearestSamples, "x");
+  const yCoefficients = solveAffine(nearestSamples, "y");
 
   if (!xCoefficients || !yCoefficients) {
     return null;
@@ -1099,12 +1107,28 @@ function gpsToLocalMeters(lat, lon, originLat, originLon) {
 }
 
 function solveAffine(samples, key) {
-  const matrix = samples.map((sample) => [1, sample.east, sample.north]);
-  const values = samples.map((sample) => sample[key]);
-  const determinant =
-    matrix[0][0] * (matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1])
-    - matrix[0][1] * (matrix[1][0] * matrix[2][2] - matrix[1][2] * matrix[2][0])
-    + matrix[0][2] * (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0]);
+  const normalMatrix = [
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0]
+  ];
+  const normalValues = [0, 0, 0];
+
+  samples.forEach((sample) => {
+    const row = [1, sample.east, sample.north];
+    row.forEach((leftValue, leftIndex) => {
+      normalValues[leftIndex] += leftValue * sample[key];
+      row.forEach((rightValue, rightIndex) => {
+        normalMatrix[leftIndex][rightIndex] += leftValue * rightValue;
+      });
+    });
+  });
+
+  return solve3x3(normalMatrix, normalValues);
+}
+
+function solve3x3(matrix, values) {
+  const determinant = get3x3Determinant(matrix);
 
   if (Math.abs(determinant) < 0.000001) {
     return null;
@@ -1114,13 +1138,14 @@ function solveAffine(samples, key) {
     const replaced = matrix.map((row, rowIndex) =>
       row.map((value, valueIndex) => valueIndex === column ? values[rowIndex] : value)
     );
-    const replacedDeterminant =
-      replaced[0][0] * (replaced[1][1] * replaced[2][2] - replaced[1][2] * replaced[2][1])
-      - replaced[0][1] * (replaced[1][0] * replaced[2][2] - replaced[1][2] * replaced[2][0])
-      + replaced[0][2] * (replaced[1][0] * replaced[2][1] - replaced[1][1] * replaced[2][0]);
-
-    return replacedDeterminant / determinant;
+    return get3x3Determinant(replaced) / determinant;
   });
+}
+
+function get3x3Determinant(matrix) {
+  return matrix[0][0] * (matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1])
+    - matrix[0][1] * (matrix[1][0] * matrix[2][2] - matrix[1][2] * matrix[2][0])
+    + matrix[0][2] * (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0]);
 }
 
 function getGeolocationErrorMessage(error) {
