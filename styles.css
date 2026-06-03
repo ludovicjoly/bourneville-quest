@@ -231,27 +231,22 @@ main {
   left: var(--map-user-x, 50%);
   top: var(--map-user-y, 50%);
   z-index: 3;
-  width: 18px;
-  height: 18px;
-  background: #d92f20;
-  border: 3px solid #fff;
-  border-radius: 999px;
-  box-shadow: 0 0 0 3px rgba(217, 47, 32, 0.28), 0 4px 10px rgba(17, 24, 32, 0.32);
+  width: 40px;
+  height: 49px;
   transform: translate(-50%, -50%);
 }
 
-.map-user-marker::after {
-  content: "";
-  position: absolute;
-  inset: -11px;
-  border: 2px solid rgba(217, 47, 32, 0.28);
-  border-radius: inherit;
+.map-user-marker > img {
+  width: 100%;
+  height: auto;
+  border: 0;
+  border-radius: 0;
 }
 
 .map-user-marker span {
   position: absolute;
   left: 50%;
-  bottom: 20px;
+  bottom: 46px;
   width: max-content;
   max-width: 140px;
   padding: 4px 7px;

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 78" role="img" aria-label="Position sur le plan">
+  <defs>
+    <filter id="shadow" x="-30%" y="-20%" width="160%" height="150%">
+      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#111820" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <path fill="#8f2f24" stroke="#fff8e9" stroke-width="4" filter="url(#shadow)" d="M32 3C17.1 3 5 15.1 5 30c0 20.1 27 44 27 44s27-23.9 27-44C59 15.1 46.9 3 32 3z"/>
+  <circle cx="32" cy="30" r="15" fill="#fff8e9" stroke="#3a2515" stroke-width="3"/>
+  <path fill="none" stroke="#3a2515" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M24 31l5 5 12-13"/>
+</svg>
