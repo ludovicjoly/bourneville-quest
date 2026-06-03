@@ -85,9 +85,21 @@
         }
       ],
       "topReferrers": []
+    },
+    {
+      "capturedAt": "2026-06-03T00:12:04.193Z",
+      "topPaths": [
+        {
+          "path": "/ludovicjoly/bourneville-quest",
+          "title": "Overview",
+          "count": 3,
+          "uniques": 2
+        }
+      ],
+      "topReferrers": []
     }
   ],
-  "updatedAt": "2026-06-02T10:02:42.147Z",
+  "updatedAt": "2026-06-03T00:12:04.193Z",
   "totalsLast14Days": {
     "views": 3,
     "uniqueVisitors": 2
