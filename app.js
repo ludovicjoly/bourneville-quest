@@ -666,7 +666,7 @@ function renderScoutMessage() {
   ];
 
   const rows = lines.map((line, lineIndex) => `
-    <div class="scout-message-line">
+    <div class="scout-message-line" style="--scout-message-count: ${line.length}">
       ${line.map((morse, boxIndex) =>
         renderFinalMorseBox(lineIndex, boxIndex, morse)
       ).join("")}

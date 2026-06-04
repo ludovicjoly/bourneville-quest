@@ -885,8 +885,8 @@ button:focus-visible {
 }
 
 .scout-message-line {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(var(--scout-message-count), 58px);
   gap: 8px;
   justify-content: center;
 }
@@ -1321,6 +1321,37 @@ body.morse-keypad-open {
 
   .final-step-panel {
     padding: 12px 0 0;
+  }
+
+  .scout-message {
+    gap: 12px;
+    padding: 12px 6px;
+  }
+
+  .scout-message-line {
+    grid-template-columns: repeat(var(--scout-message-count), minmax(0, 1fr));
+    gap: 3px;
+  }
+
+  .scout-message-box {
+    width: auto;
+    flex-basis: auto;
+    grid-template-rows: 34px 28px;
+    border-width: 1px;
+  }
+
+  .scout-message-box .morse-letter {
+    font-size: 1rem;
+    padding: 2px;
+  }
+
+  .scout-message-box .morse-code {
+    overflow: hidden;
+    padding: 2px 0;
+    border-top-width: 1px !important;
+    font-size: clamp(0.5rem, 2.05vw, 0.72rem);
+    letter-spacing: 0;
+    white-space: nowrap;
   }
 
   .clue-row {
