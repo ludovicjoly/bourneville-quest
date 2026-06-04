@@ -643,7 +643,7 @@ function renderCollectedClues() {
     `).join("");
 
     return `
-      <div class="clue-row">
+      <div class="clue-row" style="--clue-token-count: ${entries.length}">
         <span>${group.title}</span>
         <div class="clue-tokens">${cells}</div>
       </div>

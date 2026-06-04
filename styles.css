@@ -1360,8 +1360,30 @@ body.morse-keypad-open {
     padding: 10px;
   }
 
+  .clue-tokens {
+    display: grid;
+    grid-template-columns: repeat(var(--clue-token-count), minmax(0, 1fr));
+    gap: 3px;
+  }
+
   .clue-token {
-    min-width: 44px;
+    min-width: 0;
+  }
+
+  .clue-token strong,
+  .clue-token span {
+    overflow: hidden;
+    padding: 3px 1px;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+
+  .clue-token strong {
+    font-size: 0.9rem;
+  }
+
+  .clue-token span {
+    font-size: clamp(0.55rem, 2.2vw, 0.74rem);
   }
 
   .step-actions {
