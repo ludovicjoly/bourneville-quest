@@ -1362,8 +1362,9 @@ body.morse-keypad-open {
 
   .clue-tokens {
     display: grid;
-    grid-template-columns: repeat(var(--clue-token-count), minmax(0, 1fr));
+    grid-template-columns: repeat(var(--clue-token-count), minmax(34px, 42px));
     gap: 3px;
+    justify-content: center;
   }
 
   .clue-token {
