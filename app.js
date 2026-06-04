@@ -200,6 +200,7 @@ const morseKeypad = document.querySelector("#morseKeypad");
 const locatePlayer = document.querySelector("#locatePlayer");
 const locationStatus = document.querySelector("#locationStatus");
 const mapUserMarker = document.querySelector("#mapUserMarker");
+const calibrationHelp = document.querySelector("#calibrationHelp");
 let activeMorseControl = null;
 
 const mapCalibration = {
@@ -1031,6 +1032,7 @@ function setupMapLocation() {
 
     locatePlayer.disabled = true;
     locationStatus.textContent = "Recherche de votre position...";
+    hideCalibrationHelp();
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -1040,6 +1042,7 @@ function setupMapLocation() {
       (error) => {
         locatePlayer.disabled = false;
         mapUserMarker.hidden = true;
+        hideCalibrationHelp();
         locationStatus.textContent = getGeolocationErrorMessage(error);
       },
       {
@@ -1053,6 +1056,7 @@ function setupMapLocation() {
 
 function showPlayerOnMap(coords) {
   const point = gpsToMapPoint(coords.latitude, coords.longitude);
+  updateCalibrationHelp(coords, point);
 
   if (!point || point.x < -0.08 || point.x > 1.08 || point.y < -0.08 || point.y > 1.08) {
     mapUserMarker.hidden = true;
@@ -1066,6 +1070,50 @@ function showPlayerOnMap(coords) {
   mapUserMarker.style.setProperty("--map-user-y", `${y * 100}%`);
   mapUserMarker.hidden = false;
   locationStatus.textContent = `Position approximative affichée sur le plan. Précision GPS : ${formatAccuracy(coords.accuracy)}.`;
+}
+
+function updateCalibrationHelp(coords, point) {
+  if (!calibrationHelp) {
+    return;
+  }
+
+  const nearestPoint = getNearestCalibrationPoint(coords.latitude, coords.longitude);
+  const projectedX = point ? Math.round(point.x * mapCalibration.imageWidth) : "?";
+  const projectedY = point ? Math.round(point.y * mapCalibration.imageHeight) : "?";
+  const projectedPercent = point
+    ? `${(point.x * 100).toFixed(1)}% / ${(point.y * 100).toFixed(1)}%`
+    : "hors plan";
+
+  calibrationHelp.hidden = false;
+  calibrationHelp.innerHTML = `
+    <strong>Aide calibration</strong>
+    <span>GPS : ${formatCoordinate(coords.latitude)}, ${formatCoordinate(coords.longitude)}</span>
+    <span>Précision : ${formatAccuracy(coords.accuracy)}</span>
+    <span>Plan : x=${projectedX}, y=${projectedY} (${projectedPercent})</span>
+    <span>Repère proche : ${nearestPoint.name} à ${formatAccuracy(nearestPoint.distance)}</span>
+  `;
+}
+
+function hideCalibrationHelp() {
+  if (calibrationHelp) {
+    calibrationHelp.hidden = true;
+    calibrationHelp.innerHTML = "";
+  }
+}
+
+function getNearestCalibrationPoint(lat, lon) {
+  const origin = mapCalibration.points[0];
+  const current = gpsToLocalMeters(lat, lon, origin.lat, origin.lon);
+
+  return mapCalibration.points
+    .map((point) => {
+      const local = gpsToLocalMeters(point.lat, point.lon, origin.lat, origin.lon);
+      return {
+        name: point.name,
+        distance: Math.hypot(local.east - current.east, local.north - current.north)
+      };
+    })
+    .sort((left, right) => left.distance - right.distance)[0];
 }
 
 function gpsToMapPoint(lat, lon) {
@@ -1174,6 +1222,10 @@ function formatAccuracy(value) {
   return value >= 1000
     ? `${(value / 1000).toFixed(1)} km`
     : `${Math.round(value)} m`;
+}
+
+function formatCoordinate(value) {
+  return Number.isFinite(value) ? value.toFixed(7) : "?";
 }
 
 function toRadians(value) {

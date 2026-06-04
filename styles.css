@@ -226,6 +226,28 @@ main {
   font-size: 0.92rem;
 }
 
+.calibration-help {
+  display: grid;
+  gap: 3px;
+  padding: 10px 12px;
+  color: #17324d;
+  background: #fff8e9;
+  border: 1px solid #ead39c;
+  border-radius: 6px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.82rem;
+  line-height: 1.3;
+}
+
+.calibration-help[hidden] {
+  display: none;
+}
+
+.calibration-help strong,
+.calibration-help span {
+  display: block;
+}
+
 .map-user-marker {
   position: absolute;
   left: var(--map-user-x, 50%);
