@@ -203,15 +203,15 @@ const mapUserMarker = document.querySelector("#mapUserMarker");
 let activeMorseControl = null;
 
 const mapCalibration = {
-  imageWidth: 1557,
-  imageHeight: 868,
+  imageWidth: 503,
+  imageHeight: 285,
   points: [
-    { name: "Pro Patria", lat: 49.3909918, lon: 0.6165151, x: 270, y: 350 },
-    { name: "Église Saint-Pierre", lat: 49.391232, lon: 0.61773, x: 620, y: 318 },
-    { name: "Entrée du chemin du Manoir", lat: 49.3923623, lon: 0.6198166, x: 920, y: 44 },
-    { name: "Milieu de la forêt", lat: 49.3870618, lon: 0.6189459, x: 760, y: 748 },
-    { name: "Arbre solitaire", lat: 49.3877829, lon: 0.6258781, x: 1385, y: 650 },
-    { name: "Mairie", lat: 49.391876, lon: 0.620241, x: 1145, y: 402 }
+    { name: "Pro Patria", lat: 49.3909918, lon: 0.6165151, x: 87, y: 115 },
+    { name: "Église Saint-Pierre", lat: 49.391232, lon: 0.61773, x: 200, y: 104 },
+    { name: "Entrée du chemin du Manoir", lat: 49.3923623, lon: 0.6198166, x: 297, y: 14 },
+    { name: "Milieu de la forêt", lat: 49.3870618, lon: 0.6189459, x: 245, y: 246 },
+    { name: "Arbre solitaire", lat: 49.3877829, lon: 0.6258781, x: 447, y: 213 },
+    { name: "Mairie", lat: 49.391876, lon: 0.620241, x: 370, y: 132 }
   ]
 };
 
