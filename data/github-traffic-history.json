@@ -235,9 +235,27 @@
           "uniques": 1
         }
       ]
+    },
+    {
+      "capturedAt": "2026-06-09T23:52:32.784Z",
+      "topPaths": [
+        {
+          "path": "/ludovicjoly/bourneville-quest",
+          "title": "Overview",
+          "count": 5,
+          "uniques": 2
+        }
+      ],
+      "topReferrers": [
+        {
+          "referrer": "github.com",
+          "count": 1,
+          "uniques": 1
+        }
+      ]
     }
   ],
-  "updatedAt": "2026-06-08T23:47:29.435Z",
+  "updatedAt": "2026-06-09T23:52:32.784Z",
   "totalsLast14Days": {
     "views": 5,
     "uniqueVisitors": 2
