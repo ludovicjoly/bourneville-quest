@@ -211,8 +211,13 @@ const mapCalibration = {
     { name: "Église Saint-Pierre", lat: 49.391232, lon: 0.61773, x: 200, y: 104 },
     { name: "Entrée du chemin du Manoir", lat: 49.3923623, lon: 0.6198166, x: 297, y: 14 },
     { name: "Milieu de la forêt", lat: 49.3870618, lon: 0.6189459, x: 245, y: 246 },
-    { name: "Arbre solitaire", lat: 49.3877829, lon: 0.6258781, x: 447, y: 213 },
-    { name: "Mairie", lat: 49.3903886, lon: 0.6209607, x: 370, y: 132 }
+    { name: "Arbre solitaire", lat: 49.3878218, lon: 0.6258069, x: 447, y: 213, accuracy: 6 },
+    { name: "Mairie", lat: 49.3903886, lon: 0.6209607, x: 370, y: 132, accuracy: 13 },
+    { name: "Terrain Pro Patria", lat: 49.3908726, lon: 0.6169709, x: 123, y: 122, accuracy: 19 },
+    { name: "Terrain eglise", lat: 49.3913109, lon: 0.6171815, x: 169, y: 103, accuracy: 8 },
+    { name: "Terrain entree foret", lat: 49.3878563, lon: 0.6173851, x: 162, y: 222, accuracy: 6 },
+    { name: "Terrain foret est", lat: 49.3872232, lon: 0.6203394, x: 332, y: 263, accuracy: 27 },
+    { name: "Terrain haut eglise", lat: 49.3924861, lon: 0.6176739, x: 207, y: 34, accuracy: 26 }
   ]
 };
 

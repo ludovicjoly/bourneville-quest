@@ -255,7 +255,7 @@ main {
   z-index: 3;
   width: 40px;
   height: 49px;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -95%);
 }
 
 .map-user-marker > img {
