@@ -201,6 +201,7 @@ const locatePlayer = document.querySelector("#locatePlayer");
 const locationStatus = document.querySelector("#locationStatus");
 const mapUserMarker = document.querySelector("#mapUserMarker");
 const calibrationHelp = document.querySelector("#calibrationHelp");
+const adminMode = new URLSearchParams(window.location.search).get("admin") === "true";
 let activeMorseControl = null;
 
 const mapCalibration = {
@@ -1078,7 +1079,7 @@ function showPlayerOnMap(coords) {
 }
 
 function updateCalibrationHelp(coords, point) {
-  if (!calibrationHelp) {
+  if (!adminMode || !calibrationHelp) {
     return;
   }
 
@@ -1100,7 +1101,7 @@ function updateCalibrationHelp(coords, point) {
 }
 
 function hideCalibrationHelp() {
-  if (calibrationHelp) {
+  if (adminMode && calibrationHelp) {
     calibrationHelp.hidden = true;
     calibrationHelp.innerHTML = "";
   }
