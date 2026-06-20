@@ -550,9 +550,9 @@ function renderWorksheet(step, stepIndex) {
           <div class="propatria-formula">
             <strong>10</strong>
             <span>+</span>
-            ${renderSimpleBox(stepIndex, "patria-digit-1", "", "number2 compact", "Premier nombre additionné")}
+            ${renderSimpleBox(stepIndex, "patria-digit-1", "", "digit compact", "Premier nombre additionné")}
             <span>+</span>
-            ${renderSimpleBox(stepIndex, "patria-digit-2", "", "number2 compact", "Deuxième nombre additionné")}
+            ${renderSimpleBox(stepIndex, "patria-digit-2", "", "digit compact", "Deuxième nombre additionné")}
             <span>=</span>
             ${renderSimpleBox(stepIndex, "patria-result", "", "number2 compact", "Résultat")}
           </div>
