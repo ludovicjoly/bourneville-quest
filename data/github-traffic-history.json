@@ -166,6 +166,11 @@
       "views": 0,
       "uniqueVisitors": 0,
       "timestamp": "2026-06-20T00:00:00Z"
+    },
+    "2026-06-21": {
+      "views": 0,
+      "uniqueVisitors": 0,
+      "timestamp": "2026-06-21T00:00:00Z"
     }
   },
   "snapshots": [
@@ -469,9 +474,14 @@
       "capturedAt": "2026-06-21T23:51:47.581Z",
       "topPaths": [],
       "topReferrers": []
+    },
+    {
+      "capturedAt": "2026-06-22T23:51:07.971Z",
+      "topPaths": [],
+      "topReferrers": []
     }
   ],
-  "updatedAt": "2026-06-21T23:51:47.581Z",
+  "updatedAt": "2026-06-22T23:51:07.971Z",
   "totalsLast14Days": {
     "views": 0,
     "uniqueVisitors": 0
