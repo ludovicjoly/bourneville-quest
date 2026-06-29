@@ -210,7 +210,7 @@ const mapCalibration = {
   points: [
     { name: "Pro Patria", lat: 49.3909918, lon: 0.6165151, x: 87, y: 115 },
     { name: "Église Saint-Pierre", lat: 49.391232, lon: 0.61773, x: 200, y: 104 },
-    { name: "Entrée du chemin du Manoir", lat: 49.3923623, lon: 0.6198166, x: 297, y: 14 },
+    { name: "Entrée du chemin du Manoir", lat: 49.39230035582609, lon: 0.6204924852457819, x: 293, y: 19 },
     { name: "Milieu de la forêt", lat: 49.3870618, lon: 0.6189459, x: 245, y: 246 },
     { name: "Arbre solitaire", lat: 49.3878218, lon: 0.6258069, x: 447, y: 213, accuracy: 6 },
     { name: "Mairie", lat: 49.3903886, lon: 0.6209607, x: 370, y: 132, accuracy: 13 },
